@@ -101,7 +101,7 @@ button:hover{
 
 <h1>GUI-VII BAN AND UNBAN</h1>
 
-<input type="text" id="number" placeholder="Enter WhatsApp Number">
+<input type="text" id="number" placeholder="Enter Reported Number">
 
 <select id="action">
     <option value="ban">Ban Report</option>
@@ -135,8 +135,8 @@ Your generated message will appear here...
 Copy Message
 </button>
 
-<button onclick="sendWhatsApp()" class="whatsapp-btn">
-Forward to WhatsApp Support
+<button onclick="contactSupport()" class="whatsapp-btn">
+Contact Support
 </button>
 
 <div class="footer">
@@ -227,14 +227,18 @@ function copyText(){
 
 }
 
-function sendWhatsApp(){
+function contactSupport(){
 
     let text = document.getElementById("output").innerText;
 
-    let url =
-"https://wa.me/?text=" + encodeURIComponent(text);
+    let subject = "WhatsApp Support Request";
 
-    window.open(url, "_blank");
+    let email =
+"mailto:businesscomplaints@support.whatsapp.com"
++ "?subject=" + encodeURIComponent(subject)
++ "&body=" + encodeURIComponent(text);
+
+    window.location.href = email;
 
 }
 
