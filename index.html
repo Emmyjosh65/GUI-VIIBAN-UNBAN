@@ -10,7 +10,7 @@
 body{
     margin:0;
     padding:20px;
-    background:#0b1020;
+    background:linear-gradient(135deg,#001f4d,#003366,#0b1020);
     font-family:Arial, sans-serif;
     color:white;
 }
@@ -18,16 +18,18 @@ body{
 .container{
     max-width:500px;
     margin:auto;
-    background:#111827;
+    background:rgba(10,15,35,0.95);
     padding:20px;
-    border-radius:15px;
-    box-shadow:0 0 20px rgba(0,0,0,0.5);
+    border-radius:18px;
+    border:2px solid gold;
+    box-shadow:0 0 25px rgba(255,215,0,0.3);
 }
 
 h1{
     text-align:center;
-    color:#00ff99;
+    color:gold;
     margin-bottom:20px;
+    text-shadow:0 0 10px rgba(255,215,0,0.5);
 }
 
 input,
@@ -38,10 +40,11 @@ textarea{
     margin-top:10px;
     border:none;
     border-radius:10px;
-    background:#1f2937;
+    background:#0f172a;
     color:white;
     font-size:16px;
     outline:none;
+    border:1px solid #1e3a8a;
 }
 
 textarea{
@@ -55,34 +58,37 @@ button{
     margin-top:15px;
     border:none;
     border-radius:10px;
-    background:#00ff99;
+    background:linear-gradient(90deg,gold,#ffcc00);
     color:black;
     font-size:16px;
     font-weight:bold;
     cursor:pointer;
+    transition:0.3s;
 }
 
 button:hover{
-    opacity:0.9;
+    transform:scale(1.02);
+    opacity:0.95;
 }
 
 .output{
     margin-top:20px;
-    background:#1f2937;
+    background:#0f172a;
     padding:15px;
     border-radius:10px;
     white-space:pre-wrap;
     min-height:120px;
+    border:1px solid gold;
 }
 
 .footer{
     margin-top:25px;
     text-align:center;
-    color:gray;
+    color:#d1d5db;
 }
 
 .whatsapp-btn{
-    background:#25D366;
+    background:linear-gradient(90deg,#25D366,#1ebe5d);
     color:white;
 }
 
@@ -110,6 +116,11 @@ button:hover{
     <option value="Violating WhatsApp policy">Violating WhatsApp Policy</option>
 </select>
 
+<select id="device">
+    <option value="Android">Android</option>
+    <option value="iPhone (iOS)">iPhone (iOS)</option>
+</select>
+
 <textarea id="customReason" placeholder="Write additional reason"></textarea>
 
 <button onclick="generateMessage()">
@@ -122,6 +133,10 @@ Your generated message will appear here...
 
 <button onclick="copyText()">
 Copy Message
+</button>
+
+<button onclick="sendWhatsApp()" class="whatsapp-btn">
+Forward to WhatsApp Support
 </button>
 
 <div class="footer">
@@ -149,17 +164,21 @@ function generateMessage(){
     let number = document.getElementById("number").value;
     let action = document.getElementById("action").value;
     let reason = document.getElementById("reason").value;
+    let device = document.getElementById("device").value;
     let customReason = document.getElementById("customReason").value;
 
     let message = "";
 
     if(action === "ban"){
 
-        message =
+message =
 `WHATSAPP REPORT
 
 Reported Number:
 ${number}
+
+Device Type:
+${device}
 
 Reason:
 ${reason}
@@ -174,11 +193,14 @@ Kindly review and take necessary action.`;
 
     else{
 
-        message =
+message =
 `WHATSAPP UNBAN APPEAL
 
 Phone Number:
 ${number}
+
+Device Type:
+${device}
 
 Appeal Reason:
 ${reason}
@@ -191,7 +213,8 @@ Thank you.`;
 
     }
 
-    document.getElementById("output").innerText = message;
+document.getElementById("output").innerText = message;
+
 }
 
 function copyText(){
@@ -201,6 +224,17 @@ function copyText(){
     navigator.clipboard.writeText(text);
 
     alert("Message copied successfully!");
+
+}
+
+function sendWhatsApp(){
+
+    let text = document.getElementById("output").innerText;
+
+    let url =
+"https://wa.me/?text=" + encodeURIComponent(text);
+
+    window.open(url, "_blank");
 
 }
 
