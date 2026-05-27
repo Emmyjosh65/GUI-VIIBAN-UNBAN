@@ -3,93 +3,234 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GUI-VII BAN AND UNBAN</title>
+<title>GUI-VII Ban & Unban</title>
 
 <style>
 
-body{
+*{
     margin:0;
-    padding:20px;
-    background:linear-gradient(135deg,#001f4d,#003366,#0b1020);
-    font-family:Arial, sans-serif;
-    color:white;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    color:#d7e4d5;
+    font-family:Courier New, monospace;
+    min-height:100vh;
 }
 
 .container{
-    max-width:500px;
+    width:90%;
+    max-width:760px;
     margin:auto;
-    background:rgba(10,15,35,0.95);
-    padding:20px;
-    border-radius:18px;
-    border:2px solid gold;
-    box-shadow:0 0 25px rgba(255,215,0,0.3);
+    padding:25px 0;
 }
 
-h1{
-    text-align:center;
-    color:gold;
-    margin-bottom:20px;
-    text-shadow:0 0 10px rgba(255,215,0,0.5);
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:15px;
+    border-bottom:1px solid #0d5b4d;
+}
+
+.logo{
+    font-size:40px;
+    font-weight:bold;
+    color:white;
+}
+
+.logo span{
+    color:#4fe0b5;
+}
+
+.tag{
+    border:1px dashed #0d5b4d;
+    padding:10px 20px;
+    border-radius:30px;
+    color:#9de3c8;
+}
+
+.section{
+    margin-top:40px;
+}
+
+.title{
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:30px;
+    color:#e5f1df;
+}
+
+.card{
+    border:1px solid #0d5b4d;
+    border-radius:25px;
+    padding:30px;
+    margin-top:25px;
+    background:#020202;
+    box-shadow:0 0 20px rgba(0,255,170,0.08);
+    cursor:pointer;
+}
+
+.ban-card{
+    border-color:#5a1a1a;
+}
+
+.unban-card{
+    border-color:#146c43;
+}
+
+.card h2{
+    font-size:55px;
+    margin-top:20px;
+}
+
+.card p{
+    margin-top:10px;
+    color:#a8c7b7;
+    font-size:28px;
+}
+
+.form-box{
+    margin-top:25px;
+}
+
+label{
+    display:block;
+    font-size:20px;
+    margin-bottom:10px;
+    margin-top:25px;
 }
 
 input,
 select,
 textarea{
     width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:10px;
-    background:#0f172a;
+    background:#01070a;
+    border:1px solid #0d5b4d;
     color:white;
-    font-size:16px;
+    padding:18px;
+    border-radius:18px;
+    font-size:18px;
     outline:none;
-    border:1px solid #1e3a8a;
+    font-family:Courier New, monospace;
 }
 
 textarea{
-    height:100px;
+    height:130px;
     resize:none;
 }
 
+.btns{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
+}
+
 button{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
+    padding:18px 28px;
+    border-radius:20px;
     border:none;
-    border-radius:10px;
-    background:linear-gradient(90deg,gold,#ffcc00);
-    color:black;
-    font-size:16px;
-    font-weight:bold;
+    font-size:18px;
     cursor:pointer;
-    transition:0.3s;
+    font-family:Courier New, monospace;
 }
 
-button:hover{
-    transform:scale(1.02);
-    opacity:0.95;
+.back-btn{
+    background:transparent;
+    border:1px solid #0d5b4d;
+    color:white;
 }
 
-.output{
-    margin-top:20px;
-    background:#0f172a;
-    padding:15px;
-    border-radius:10px;
-    white-space:pre-wrap;
-    min-height:120px;
-    border:1px solid gold;
+.continue-btn{
+    background:#69d3a4;
+    color:black;
+    font-weight:bold;
+}
+
+.process-box{
+    margin-top:25px;
+    border:1px solid #0d5b4d;
+    border-radius:25px;
+    padding:25px;
+    font-size:22px;
+    line-height:1.7;
+    background:#010101;
+}
+
+.progress{
+    width:100%;
+    height:18px;
+    border:1px solid #0d5b4d;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:25px;
+}
+
+.bar{
+    width:85%;
+    height:100%;
+    background:#7ddbb3;
+}
+
+.result{
+    margin-top:30px;
+    display:none;
+}
+
+.result-box{
+    margin-top:25px;
+    padding:25px;
+    border-radius:20px;
+    border:1px solid #0d5b4d;
+    font-size:24px;
+    line-height:1.8;
 }
 
 .footer{
-    margin-top:25px;
-    text-align:center;
-    color:#d1d5db;
+    margin-top:80px;
+    padding-top:25px;
+    border-top:1px solid #0d5b4d;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:20px;
+    color:#d7e4d5;
+    font-size:20px;
 }
 
-.whatsapp-btn{
-    background:linear-gradient(90deg,#25D366,#1ebe5d);
-    color:white;
+.owner{
+    margin-top:30px;
+}
+
+.owner a{
+    color:#7ddbb3;
+    text-decoration:none;
+}
+
+.hidden{
+    display:none;
+}
+
+@media(max-width:700px){
+
+.title{
+    font-size:38px;
+}
+
+.card h2{
+    font-size:40px;
+}
+
+.card p{
+    font-size:22px;
+}
+
+.footer{
+    flex-direction:column;
+}
+
 }
 
 </style>
@@ -99,59 +240,188 @@ button:hover{
 
 <div class="container">
 
-<h1>GUI-VII BAN AND UNBAN</h1>
+<header>
 
-<input type="text" id="number" placeholder="Enter Reported Number">
-
-<select id="action">
-    <option value="ban">Ban Report</option>
-    <option value="unban">Unban Appeal</option>
-</select>
-
-<select id="reason">
-    <option value="Spam activities">Spam</option>
-    <option value="Fake account">Fake Account</option>
-    <option value="Scam/Fraud">Scam/Fraud</option>
-    <option value="Harassment">Harassment</option>
-    <option value="Violating WhatsApp policy">Violating WhatsApp Policy</option>
-</select>
-
-<select id="device">
-    <option value="Android">Android</option>
-    <option value="iPhone (iOS)">iPhone (iOS)</option>
-</select>
-
-<textarea id="customReason" placeholder="Write additional reason"></textarea>
-
-<button onclick="generateMessage()">
-Generate Message
-</button>
-
-<div class="output" id="output">
-Your generated message will appear here...
+<div class="logo">
+GUI<span>VII</span>
 </div>
 
-<button onclick="copyText()">
-Copy Message
+<div class="tag">
+Ban and Unban
+</div>
+
+</header>
+
+<div id="homePage">
+
+<div class="section">
+
+<div class="title">
+WhatsApp Ban / Unban
+</div>
+
+<div class="card ban-card" onclick="openForm('ban')">
+
+<div style="font-size:70px;">🚫</div>
+
+<h2 style="color:#3b82f6;">Ban</h2>
+
+<p>Banning a number</p>
+
+</div>
+
+<div class="card unban-card" onclick="openForm('unban')">
+
+<div style="font-size:70px;">✅</div>
+
+<h2 style="color:#3b82f6;">Unban</h2>
+
+<p>Unbanning a number</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="formPage" class="hidden">
+
+<div class="section">
+
+<div class="title" id="formTitle">
+Ban a Number
+</div>
+
+<div class="form-box">
+
+<label>Phone Number</label>
+
+<input type="text" id="number" placeholder="+234xxxxxxxxxx">
+
+<label id="typeLabel">Ban Type</label>
+
+<select id="type">
+
+<option>Temporary Ban</option>
+
+<option>Permanent Ban</option>
+
+<option>Business Ban</option>
+
+<option>Spam Restriction</option>
+
+</select>
+
+<label>Reason (optional)</label>
+
+<textarea id="reason" placeholder="Enter your reason..."></textarea>
+
+<div class="btns">
+
+<button class="back-btn" onclick="goHome()">
+Back
 </button>
 
-<button onclick="contactSupport()" class="whatsapp-btn">
-Contact Support
+<button class="continue-btn" onclick="startProcess()">
+Continue
 </button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="processingPage" class="hidden">
+
+<div class="section">
+
+<div class="title">
+Processing…
+</div>
+
+<div class="process-box" id="processText">
+
+endpoint...<br>
+
+> [AUTH] Negotiating handshake...<br>
+
+> [TARGET] Number detected...<br>
+
+> [PROC] Applying policy lock...<br>
+
+> [CRYPTO] Spawning worker threads...<br>
+
+> [NET] Routing through relay nodes...<br>
+
+> [AI] Inspecting historical behavior...<br>
+
+> [DB] Writing audit entry...<br>
+
+> [PROC] Finalizing operation...
+
+</div>
+
+<div class="progress">
+
+<div class="bar"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="resultPage" class="hidden">
+
+<div class="section">
+
+<div class="title">
+✅ Operation Completed
+</div>
+
+<div class="result-box" id="resultText">
+
+</div>
+
+<div class="btns">
+
+<button class="back-btn" onclick="goHome()">
+Home
+</button>
+
+<button class="continue-btn" onclick="runAgain()">
+Run Again
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 <div class="footer">
 
+<div>
+© 2025 GUI-VII • Ban-Unban System
+</div>
+
+<div>
+Toggle Theme
+</div>
+
+</div>
+
+<div class="owner">
+
 <p>
-Owner Contact: +58 416-9768887
-</p>
-
+Owner Contact:
 <a href="https://wa.me/584169768887" target="_blank">
-
-<button class="whatsapp-btn">
-Contact Owner on WhatsApp
-</button>
-
++58 416-9768887
 </a>
+</p>
 
 </div>
 
@@ -159,86 +429,101 @@ Contact Owner on WhatsApp
 
 <script>
 
-function generateMessage(){
+let currentAction = "ban";
 
-    let number = document.getElementById("number").value;
-    let action = document.getElementById("action").value;
-    let reason = document.getElementById("reason").value;
-    let device = document.getElementById("device").value;
-    let customReason = document.getElementById("customReason").value;
+function openForm(action){
 
-    let message = "";
+    currentAction = action;
+
+    document.getElementById("homePage").classList.add("hidden");
+
+    document.getElementById("formPage").classList.remove("hidden");
 
     if(action === "ban"){
 
-message =
-`WHATSAPP REPORT
+        document.getElementById("formTitle").innerText = "Ban a Number";
 
-Reported Number:
-${number}
-
-Device Type:
-${device}
-
-Reason:
-${reason}
-
-Additional Information:
-${customReason}
-
-This account is violating WhatsApp community guidelines.
-Kindly review and take necessary action.`;
+        document.getElementById("typeLabel").innerText = "Ban Type";
 
     }
 
     else{
 
-message =
-`WHATSAPP UNBAN APPEAL
+        document.getElementById("formTitle").innerText = "Unban a Number";
 
-Phone Number:
-${number}
-
-Device Type:
-${device}
-
-Appeal Reason:
-${reason}
-
-Additional Information:
-${customReason}
-
-I sincerely request WhatsApp to review and restore this account.
-Thank you.`;
+        document.getElementById("typeLabel").innerText = "Unban Type";
 
     }
 
-document.getElementById("output").innerText = message;
+}
+
+function goHome(){
+
+    document.getElementById("homePage").classList.remove("hidden");
+
+    document.getElementById("formPage").classList.add("hidden");
+
+    document.getElementById("processingPage").classList.add("hidden");
+
+    document.getElementById("resultPage").classList.add("hidden");
 
 }
 
-function copyText(){
+function startProcess(){
 
-    let text = document.getElementById("output").innerText;
+    let number = document.getElementById("number").value;
 
-    navigator.clipboard.writeText(text);
+    let type = document.getElementById("type").value;
 
-    alert("Message copied successfully!");
+    let reason = document.getElementById("reason").value;
+
+    document.getElementById("formPage").classList.add("hidden");
+
+    document.getElementById("processingPage").classList.remove("hidden");
+
+    setTimeout(() => {
+
+        document.getElementById("processingPage").classList.add("hidden");
+
+        document.getElementById("resultPage").classList.remove("hidden");
+
+        if(currentAction === "ban"){
+
+            document.getElementById("resultText").innerHTML =
+`
+Number <b>${number}</b> has been<br>
+<b>${type}</b>.<br><br>
+
+Reason:
+${reason || "No reason provided"}
+
+`;
+
+        }
+
+        else{
+
+            document.getElementById("resultText").innerHTML =
+`
+Number <b>${number}</b> has been submitted for<br>
+<b>${type}</b> review.<br><br>
+
+Reason:
+${reason || "No reason provided"}
+
+`;
+
+        }
+
+    },3000);
 
 }
 
-function contactSupport(){
+function runAgain(){
 
-    let text = document.getElementById("output").innerText;
+    document.getElementById("resultPage").classList.add("hidden");
 
-    let subject = "WhatsApp Support Request";
-
-    let email =
-"mailto:businesscomplaints@support.whatsapp.com"
-+ "?subject=" + encodeURIComponent(subject)
-+ "&body=" + encodeURIComponent(text);
-
-    window.location.href = email;
+    document.getElementById("formPage").classList.remove("hidden");
 
 }
 
