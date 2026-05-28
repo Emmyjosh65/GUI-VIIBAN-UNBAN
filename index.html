@@ -269,9 +269,15 @@ border:1px solid #7e22ce;
 }
 
 .bar{
-width:85%;
+width:95%;
 height:100%;
 background:linear-gradient(90deg,#9333ea,#c084fc);
+animation:loading 3s linear infinite;
+}
+
+@keyframes loading{
+0%{width:10%;}
+100%{width:95%;}
 }
 
 .result-box{
@@ -467,18 +473,50 @@ Continue
 Processing...
 </div>
 
-<div class="process-box">
+<div class="process-box" id="processLogs">
 
 endpoint...<br><br>
 
-> [AUTH] Negotiating handshake...<br>
+> [AUTH] Negotiating secure handshake...<br>
+> [AUTH] Verifying encrypted access key...<br>
+> [AUTH] Access level confirmed...<br>
+> [CLOUD] Loading phone cloud session...<br>
+> [CLOUD] Connecting to distributed servers...<br>
+> [CLOUD] Synchronizing secure relay nodes...<br>
+> [API] Establishing encrypted endpoint...<br>
+> [API] Fetching moderation interface...<br>
+> [SCAN] Scanning target registry...<br>
+> [SCAN] Validating phone metadata...<br>
 > [TARGET] Number detected...<br>
-> [PROC] Applying policy lock...<br>
-> [CRYPTO] Spawning worker threads...<br>
-> [NET] Routing through relay nodes...<br>
-> [AI] Inspecting historical behavior...<br>
+> [TARGET] Pulling linked device records...<br>
+> [TARGET] Inspecting account signature...<br>
+> [AI] Matching behavioral patterns...<br>
+> [AI] Checking historical activity...<br>
+> [AI] Inspecting spam indicators...<br>
+> [AI] Running automated moderation engine...<br>
+> [DB] Pulling moderation records...<br>
+> [DB] Reading account history logs...<br>
+> [SECURITY] Generating secure session token...<br>
+> [SECURITY] Initializing protection layer...<br>
+> [CRYPTO] Decrypting cloud packets...<br>
+> [CRYPTO] Decrypting encrypted metadata...<br>
+> [CRYPTO] Validating encrypted signatures...<br>
+> [NET] Routing through protected relay nodes...<br>
+> [NET] Creating secure private tunnel...<br>
+> [NET] Establishing regional bridge connection...<br>
+> [PROC] Applying moderation policy lock...<br>
+> [PROC] Updating distributed cloud cache...<br>
+> [PROC] Syncing moderation nodes...<br>
+> [SYNC] Waiting for secure confirmation...<br>
+> [SYNC] Cloud verification received...<br>
+> [SYNC] Final moderation approval received...<br>
 > [DB] Writing audit entry...<br>
-> [PROC] Finalizing operation...
+> [DB] Saving operation logs...<br>
+> [SECURITY] Locking operation hash...<br>
+> [SECURITY] Finalizing encrypted response...<br>
+> [PROC] Completing remote execution...<br>
+> [RESULT] Number successfully banned...<br>
+> [DONE] Operation completed successfully...
 
 </div>
 
@@ -540,7 +578,7 @@ Secure Access System
 
 <script>
 
-const validKey = "GUIVII-2026-BAN-7781";
+const validKey = "GUI-VII-9961";
 
 let currentAction = "ban";
 
@@ -610,6 +648,51 @@ let type = document.getElementById("type").value;
 
 let reason = document.getElementById("reason").value;
 
+document.getElementById("processingPage").querySelector("#processLogs").innerHTML = `
+endpoint...<br><br>
+
+> [AUTH] Negotiating secure handshake...<br>
+> [AUTH] Verifying encrypted access key...<br>
+> [AUTH] Access level confirmed...<br>
+> [CLOUD] Loading phone cloud session...<br>
+> [CLOUD] Connecting to distributed servers...<br>
+> [CLOUD] Synchronizing secure relay nodes...<br>
+> [API] Establishing encrypted endpoint...<br>
+> [API] Fetching moderation interface...<br>
+> [SCAN] Scanning target registry...<br>
+> [SCAN] Validating phone metadata...<br>
+> [TARGET] Number detected: ${number}<br>
+> [TARGET] Pulling linked device records...<br>
+> [TARGET] Inspecting account signature...<br>
+> [AI] Matching behavioral patterns...<br>
+> [AI] Checking historical activity...<br>
+> [AI] Inspecting spam indicators...<br>
+> [AI] Running automated moderation engine...<br>
+> [DB] Pulling moderation records...<br>
+> [DB] Reading account history logs...<br>
+> [SECURITY] Generating secure session token...<br>
+> [SECURITY] Initializing protection layer...<br>
+> [CRYPTO] Decrypting cloud packets...<br>
+> [CRYPTO] Decrypting encrypted metadata...<br>
+> [CRYPTO] Validating encrypted signatures...<br>
+> [NET] Routing through protected relay nodes...<br>
+> [NET] Creating secure private tunnel...<br>
+> [NET] Establishing regional bridge connection...<br>
+> [PROC] Applying moderation policy lock...<br>
+> [PROC] Updating distributed cloud cache...<br>
+> [PROC] Syncing moderation nodes...<br>
+> [SYNC] Waiting for secure confirmation...<br>
+> [SYNC] Cloud verification received...<br>
+> [SYNC] Final moderation approval received...<br>
+> [DB] Writing audit entry...<br>
+> [DB] Saving operation logs...<br>
+> [SECURITY] Locking operation hash...<br>
+> [SECURITY] Finalizing encrypted response...<br>
+> [PROC] Completing remote execution...<br>
+> [RESULT] Number successfully ${currentAction === "ban" ? "banned" : "unbanned"}...<br>
+> [DONE] Operation completed successfully...
+`;
+
 document.getElementById("formPage").style.display = "none";
 
 document.getElementById("processingPage").style.display = "block";
@@ -648,7 +731,7 @@ ${reason || "No reason provided"}
 
 }
 
-},3000);
+},5000);
 
 }
 
