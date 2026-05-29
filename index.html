@@ -9,343 +9,168 @@
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-    background:#050010;
-    color:white;
-    overflow-x:hidden;
+background:#050010;
+color:white;
+overflow-x:hidden;
 }
 
-/* BACKGROUND GLOW */
-
 body::before{
-    content:'';
-    position:fixed;
-    width:500px;
-    height:500px;
-    background:#8a2be2;
-    filter:blur(180px);
-    top:-200px;
-    left:-100px;
-    opacity:0.4;
-    z-index:-1;
+content:'';
+position:fixed;
+width:500px;
+height:500px;
+background:#8a2be2;
+filter:blur(180px);
+top:-200px;
+left:-100px;
+opacity:0.4;
+z-index:-1;
 }
 
 body::after{
-    content:'';
-    position:fixed;
-    width:500px;
-    height:500px;
-    background:#c26bff;
-    filter:blur(180px);
-    bottom:-200px;
-    right:-100px;
-    opacity:0.3;
-    z-index:-1;
+content:'';
+position:fixed;
+width:500px;
+height:500px;
+background:#c26bff;
+filter:blur(180px);
+bottom:-200px;
+right:-100px;
+opacity:0.3;
+z-index:-1;
 }
-
-/* MAIN CONTAINER */
 
 .container{
-    width:100%;
-    max-width:450px;
-    margin:auto;
-    padding:20px;
-    padding-top:40px;
+width:100%;
+max-width:450px;
+margin:auto;
+padding:20px;
+padding-top:40px;
 }
-
-/* LOGO */
 
 .logo{
-    width:100%;
-    border-radius:25px;
-    margin-bottom:25px;
-    border:2px solid #8a2be2;
-    box-shadow:0 0 25px #8a2be2;
+width:100%;
+border-radius:25px;
+margin-bottom:25px;
+border:2px solid #8a2be2;
+box-shadow:0 0 25px #8a2be2;
 }
 
-/* LOGIN BOX */
-
-.login-box{
-    background:#070014;
-    border:2px solid #8a2be2;
-    border-radius:30px;
-    padding:30px 20px;
-    text-align:center;
-    box-shadow:0 0 30px #8a2be2;
+.login-box,
+.panel,
+.form-page,
+.processing-page,
+.result-page{
+background:#070014;
+border:2px solid #8a2be2;
+border-radius:30px;
+padding:25px;
+box-shadow:0 0 30px #8a2be2;
 }
 
-.login-box h1{
-    font-size:45px;
-    color:#c26bff;
-    text-shadow:0 0 20px #a020f0;
-    margin-bottom:30px;
+.panel,
+.form-page,
+.processing-page,
+.result-page{
+display:none;
+margin-top:25px;
 }
 
-.input-box{
-    width:100%;
-    padding:18px;
-    background:black;
-    border:2px solid #8a2be2;
-    border-radius:20px;
-    color:white;
-    font-size:20px;
-    outline:none;
-    margin-bottom:25px;
+.login-box h1,
+.panel h2,
+.form-page h2,
+.processing-page h2,
+.result-page h2{
+text-align:center;
+color:#c26bff;
+margin-bottom:25px;
 }
 
-.login-btn{
-    width:100%;
-    padding:18px;
-    border:none;
-    border-radius:20px;
-    background:linear-gradient(90deg,#8a2be2,#c26bff);
-    color:white;
-    font-size:30px;
-    font-weight:bold;
-    cursor:pointer;
-    box-shadow:0 0 25px #8a2be2;
+.input-box,
+select,
+textarea{
+width:100%;
+padding:18px;
+background:black;
+border:2px solid #8a2be2;
+border-radius:20px;
+color:white;
+font-size:18px;
+outline:none;
+margin-bottom:20px;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+.login-btn,
+.action-btn{
+width:100%;
+padding:18px;
+border:none;
+border-radius:20px;
+background:linear-gradient(90deg,#8a2be2,#c26bff);
+color:white;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 0 25px #8a2be2;
+margin-top:15px;
 }
 
 .owner{
-    margin-top:35px;
-    font-size:22px;
-    color:#ddd;
+margin-top:30px;
+text-align:center;
+font-size:20px;
 }
 
 .owner-number{
-    margin-top:10px;
-    font-size:30px;
-    color:#c26bff;
-    font-weight:bold;
+margin-top:10px;
+font-size:28px;
+font-weight:bold;
+color:#c26bff;
 }
 
 .owner-text{
-    margin-top:25px;
-    color:#bbb;
-    font-size:20px;
-}
-
-/* BUY ACCESS KEY */
-
-.buy-key-box{
-    margin-top:30px;
-}
-
-.buy-title{
-    font-size:30px;
-    color:#c26bff;
-    margin-bottom:20px;
-    text-shadow:0 0 15px #a020f0;
+margin-top:15px;
+color:#bbb;
 }
 
 .buy-btn{
-    width:100%;
-    padding:18px;
-    border:none;
-    border-radius:20px;
-    background:linear-gradient(90deg,#8a2be2,#c26bff);
-    color:white;
-    font-size:24px;
-    font-weight:bold;
-    cursor:pointer;
-    box-shadow:0 0 25px #8a2be2;
-}
-
-/* BUY PAGE */
-
-.buy-page{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#050010;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-    overflow:auto;
-    padding:20px;
-}
-
-.buy-container{
-    width:100%;
-    max-width:420px;
-    background:#090018;
-    border:2px solid #8a2be2;
-    border-radius:30px;
-    padding:25px;
-    box-shadow:0 0 35px #8a2be2;
-}
-
-.buy-container h1{
-    text-align:center;
-    color:#d58cff;
-    margin-bottom:30px;
-    text-shadow:0 0 15px #a020f0;
-}
-
-.buy-container label{
-    display:block;
-    margin-bottom:10px;
-    font-size:18px;
-    color:white;
-}
-
-.buy-container select{
-    width:100%;
-    padding:18px;
-    border-radius:18px;
-    border:2px solid #8a2be2;
-    background:black;
-    color:white;
-    font-size:18px;
-    outline:none;
-}
-
-.price-box{
-    margin-top:25px;
-    padding:25px;
-    border-radius:20px;
-    background:#120024;
-    border:1px solid #8a2be2;
-    text-align:center;
-    box-shadow:0 0 20px #8a2be2;
-}
-
-.price-box h2{
-    font-size:45px;
-    color:#c26bff;
-}
-
-.payment-box{
-    margin-top:25px;
-    padding:25px;
-    border-radius:20px;
-    background:#120024;
-    border:1px solid #8a2be2;
-    text-align:center;
-}
-
-.payment-box h3{
-    color:#d58cff;
-    margin-bottom:20px;
-}
-
-.pay-btn{
-    display:block;
-    width:100%;
-    text-decoration:none;
-    padding:18px;
-    border-radius:18px;
-    background:linear-gradient(90deg,#8a2be2,#c26bff);
-    color:white;
-    font-size:22px;
-    font-weight:bold;
-    box-shadow:0 0 20px #8a2be2;
-}
-
-.mini-number{
-    margin-top:20px;
-    color:#aaa;
-    font-size:18px;
-}
-
-.payment-box h2{
-    color:#c26bff;
-    margin-top:10px;
-}
-
-.after-payment{
-    margin-top:25px;
-    padding:25px;
-    border-radius:20px;
-    background:#120024;
-    border:1px solid #8a2be2;
-    text-align:center;
-}
-
-.after-payment h3{
-    color:#d58cff;
-    margin-bottom:15px;
-}
-
-.after-payment p{
-    color:#ddd;
-    margin-bottom:20px;
-}
-
-.whatsapp-btn{
-    display:block;
-    text-decoration:none;
-    width:100%;
-    padding:18px;
-    border-radius:18px;
-    background:linear-gradient(90deg,#8a2be2,#c26bff);
-    color:white;
-    font-size:22px;
-    font-weight:bold;
-    box-shadow:0 0 20px #8a2be2;
-}
-
-.close-btn{
-    margin-top:25px;
-    width:100%;
-    padding:18px;
-    border:none;
-    border-radius:18px;
-    background:#1a0033;
-    border:1px solid #8a2be2;
-    color:white;
-    font-size:22px;
-    cursor:pointer;
-}
-
-/* PANEL */
-
-.panel{
-    display:none;
-    margin-top:30px;
-    background:#070014;
-    border:2px solid #8a2be2;
-    border-radius:30px;
-    padding:25px;
-    box-shadow:0 0 30px #8a2be2;
-}
-
-.panel h2{
-    text-align:center;
-    color:#c26bff;
-    margin-bottom:25px;
+margin-top:25px;
 }
 
 .process{
-    background:#120024;
-    border:1px solid #8a2be2;
-    border-radius:15px;
-    padding:15px;
-    margin-bottom:15px;
-    color:#ddd;
+background:#120024;
+border:1px solid #8a2be2;
+border-radius:15px;
+padding:15px;
+margin-bottom:15px;
+color:#ddd;
 }
 
-.action-btn{
-    width:100%;
-    padding:18px;
-    margin-top:15px;
-    border:none;
-    border-radius:18px;
-    background:linear-gradient(90deg,#8a2be2,#c26bff);
-    color:white;
-    font-size:22px;
-    font-weight:bold;
-    cursor:pointer;
-    box-shadow:0 0 20px #8a2be2;
+.success{
+color:#00ff99;
+font-weight:bold;
+font-size:22px;
+text-align:center;
+margin-top:20px;
+}
+
+label{
+display:block;
+margin-bottom:10px;
+color:#c26bff;
+font-size:18px;
 }
 
 </style>
@@ -357,13 +182,17 @@ body::after{
 
 <img src="https://i.imgur.com/2dhG7vM.jpeg" class="logo">
 
-<div class="login-box">
+<!-- LOGIN -->
+
+<div class="login-box" id="loginBox">
 
 <h1>INPUT ACCESS KEY LOGIN</h1>
 
 <input type="text" id="accessKey" class="input-box" placeholder="Enter Access Key">
 
-<button class="login-btn" onclick="login()">LOGIN</button>
+<button class="login-btn" onclick="login()">
+LOGIN
+</button>
 
 <div class="owner">
 Owner Contact:
@@ -377,98 +206,88 @@ Owner Contact:
 Contact owner for access key
 </div>
 
-<div class="buy-key-box">
-
-<div class="buy-title">
-BUY ACCESS KEY
-</div>
-
-<button onclick="openBuyPage()" class="buy-btn">
+<button class="login-btn buy-btn">
 BUY ACCESS KEY
 </button>
 
 </div>
 
-</div>
+<!-- PANEL -->
 
-<div id="panel" class="panel">
+<div class="panel" id="panel">
 
 <h2>GUI VII BAN & UNBAN PANEL</h2>
 
 <div class="process">Loading Phone Cloud...</div>
 <div class="process">Connecting Secure Server...</div>
 <div class="process">Decrypting Encrypted Data...</div>
-<div class="process">Checking Device Status...</div>
 <div class="process">Syncing Ban Database...</div>
-<div class="process">Verifying Account Access...</div>
-<div class="process">Bypassing Security Layers...</div>
-<div class="process">Initializing System Kernel...</div>
-<div class="process">Fetching UID Information...</div>
-<div class="process">Finalizing Access...</div>
 
-<button class="action-btn" onclick="startProcess('BAN ACCOUNT')">
+<button class="action-btn" onclick="openForm('ban')">
 BAN ACCOUNT
 </button>
 
-<button class="action-btn" onclick="startProcess('UNBAN ACCOUNT')">
+<button class="action-btn" onclick="openForm('unban')">
 UNBAN ACCOUNT
 </button>
 
 </div>
 
-</div>
+<!-- FORM PAGE -->
 
-<div id="buyPage" class="buy-page">
+<div class="form-page" id="formPage">
 
-<div class="buy-container">
+<h2 id="formTitle">BAN ACCOUNT</h2>
 
-<h1>GUI VII ACCESS KEY SHOP</h1>
+<label>Enter Number</label>
 
-<label>Select Access Key Type</label>
+<input type="text" id="number" class="input-box" placeholder="+234xxxxxxxxxx">
 
-<select id="keyType" onchange="updatePrice()">
-<option value="">-- Choose Access Key --</option>
-<option value="Lifetime">Lifetime Access</option>
-<option value="Monthly">Monthly Access</option>
-<option value="Weekly">Weekly Access</option>
+<label id="modeText">Ban Mode</label>
+
+<select id="mode">
+
+<option>Temporary Ban</option>
+<option>Permanent Ban</option>
+<option>Spam Restriction</option>
+<option>Business Ban</option>
+
 </select>
 
-<div class="price-box">
-<h2 id="priceTag">$0</h2>
-</div>
+<label>Reason</label>
 
-<div class="payment-box">
+<textarea id="reason" placeholder="Enter reason..."></textarea>
 
-<h3>MiniPay Payment</h3>
+<button class="action-btn" onclick="startProcess()">
+START PROCESS
+</button>
 
-<a href="https://minipay.app/send?phone=%2B584169768887" target="_blank" class="pay-btn">
-PAY NOW WITH MINIPAY
-</a>
-
-<div class="mini-number">
-MiniPay Number
-</div>
-
-<h2>+58 416-9768887</h2>
-
-</div>
-
-<div class="after-payment">
-
-<h3>After Payment</h3>
-
-<p>
-Send payment screenshot or transaction details to owner
-</p>
-
-<a href="https://wa.me/584169768887" target="_blank" class="whatsapp-btn">
-CONTACT OWNER
-</a>
-
-</div>
-
-<button onclick="closeBuyPage()" class="close-btn">
+<button class="action-btn" onclick="goBack()">
 BACK
+</button>
+
+</div>
+
+<!-- PROCESSING -->
+
+<div class="processing-page" id="processingPage">
+
+<h2>PROCESSING...</h2>
+
+<div id="processArea"></div>
+
+</div>
+
+<!-- RESULT -->
+
+<div class="result-page" id="resultPage">
+
+<h2>RESULT</h2>
+
+<div id="resultText"></div>
+
+<button class="action-btn" onclick="resetAll()">
+DONE
 </button>
 
 </div>
@@ -479,6 +298,8 @@ BACK
 
 const validKey = "GUI-VII-9961";
 
+let currentAction = "BAN";
+
 function login(){
 
 let key = document.getElementById("accessKey").value;
@@ -487,9 +308,9 @@ if(key === validKey){
 
 alert("ACCESS GRANTED");
 
-document.getElementById("panel").style.display = "block";
+document.getElementById("loginBox").style.display = "none";
 
-document.querySelector(".login-box").style.display = "none";
+document.getElementById("panel").style.display = "block";
 
 }
 
@@ -501,46 +322,37 @@ alert("INVALID ACCESS KEY");
 
 }
 
-function openBuyPage(){
+function openForm(type){
 
-document.getElementById("buyPage").style.display = "flex";
+currentAction = type;
 
-}
+document.getElementById("panel").style.display = "none";
 
-function closeBuyPage(){
+document.getElementById("formPage").style.display = "block";
 
-document.getElementById("buyPage").style.display = "none";
+if(type === "ban"){
 
-}
+document.getElementById("formTitle").innerHTML = "BAN ACCOUNT";
 
-function updatePrice(){
-
-let type = document.getElementById("keyType").value;
-let price = document.getElementById("priceTag");
-
-if(type === "Lifetime"){
-
-price.innerHTML = "$60";
-
-}
-
-else if(type === "Monthly"){
-
-price.innerHTML = "$20";
-
-}
-
-else if(type === "Weekly"){
-
-price.innerHTML = "$5";
+document.getElementById("modeText").innerHTML = "Ban Mode";
 
 }
 
 else{
 
-price.innerHTML = "$0";
+document.getElementById("formTitle").innerHTML = "UNBAN ACCOUNT";
+
+document.getElementById("modeText").innerHTML = "Unban Mode";
 
 }
+
+}
+
+function goBack(){
+
+document.getElementById("formPage").style.display = "none";
+
+document.getElementById("panel").style.display = "block";
 
 }
 
@@ -571,20 +383,15 @@ const processes = [
 
 ];
 
-function startProcess(action){
+function startProcess(){
 
-const panel = document.getElementById("panel");
+document.getElementById("formPage").style.display = "none";
 
-panel.innerHTML = `
-<h2>${action} PROCESSING</h2>
-<div id="processArea"></div>
+document.getElementById("processingPage").style.display = "block";
 
-<button class="action-btn" onclick="resetPanel()">
-BACK
-</button>
-`;
+let area = document.getElementById("processArea");
 
-let processArea = document.getElementById("processArea");
+area.innerHTML = "";
 
 let i = 0;
 
@@ -592,7 +399,7 @@ let interval = setInterval(() => {
 
 if(i < processes.length){
 
-processArea.innerHTML += `
+area.innerHTML += `
 <div class="process">
 ${processes[i]}
 </div>
@@ -606,11 +413,7 @@ else{
 
 clearInterval(interval);
 
-processArea.innerHTML += `
-<div class="process" style="color:#c26bff;font-weight:bold;">
-${action} SUCCESSFUL
-</div>
-`;
+showResult();
 
 }
 
@@ -618,32 +421,46 @@ ${action} SUCCESSFUL
 
 }
 
-function resetPanel(){
+function showResult(){
 
-document.getElementById("panel").innerHTML = `
+document.getElementById("processingPage").style.display = "none";
 
-<h2>GUI VII BAN & UNBAN PANEL</h2>
+document.getElementById("resultPage").style.display = "block";
 
-<div class="process">Loading Phone Cloud...</div>
-<div class="process">Connecting Secure Server...</div>
-<div class="process">Decrypting Encrypted Data...</div>
-<div class="process">Checking Device Status...</div>
-<div class="process">Syncing Ban Database...</div>
-<div class="process">Verifying Account Access...</div>
-<div class="process">Bypassing Security Layers...</div>
-<div class="process">Initializing System Kernel...</div>
-<div class="process">Fetching UID Information...</div>
-<div class="process">Finalizing Access...</div>
+let number = document.getElementById("number").value;
+let mode = document.getElementById("mode").value;
+let reason = document.getElementById("reason").value;
 
-<button class="action-btn" onclick="startProcess('BAN ACCOUNT')">
-BAN ACCOUNT
-</button>
+document.getElementById("resultText").innerHTML = `
 
-<button class="action-btn" onclick="startProcess('UNBAN ACCOUNT')">
-UNBAN ACCOUNT
-</button>
+<div class="process">
+Number: ${number}
+</div>
+
+<div class="process">
+Mode: ${mode}
+</div>
+
+<div class="process">
+Reason: ${reason}
+</div>
+
+<div class="success">
+${currentAction.toUpperCase()} SUCCESSFUL
+</div>
 
 `;
+
+}
+
+function resetAll(){
+
+document.getElementById("resultPage").style.display = "none";
+
+document.getElementById("panel").style.display = "block";
+
+document.getElementById("number").value = "";
+document.getElementById("reason").value = "";
 
 }
 
