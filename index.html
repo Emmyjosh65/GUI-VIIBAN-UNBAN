@@ -173,6 +173,116 @@ color:#c26bff;
 font-size:18px;
 }
 
+/* BUY PAGE */
+
+.buy-page{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#050010;
+display:none;
+justify-content:center;
+align-items:center;
+z-index:9999;
+overflow:auto;
+padding:20px;
+}
+
+.buy-container{
+width:100%;
+max-width:420px;
+background:#090018;
+border:2px solid #8a2be2;
+border-radius:30px;
+padding:25px;
+box-shadow:0 0 35px #8a2be2;
+}
+
+.buy-container h1{
+text-align:center;
+color:#d58cff;
+margin-bottom:30px;
+}
+
+.price-box{
+margin-top:25px;
+padding:25px;
+border-radius:20px;
+background:#120024;
+border:1px solid #8a2be2;
+text-align:center;
+}
+
+.price-box h2{
+font-size:45px;
+color:#c26bff;
+}
+
+.payment-box{
+margin-top:25px;
+padding:25px;
+border-radius:20px;
+background:#120024;
+border:1px solid #8a2be2;
+text-align:center;
+}
+
+.pay-btn{
+display:block;
+width:100%;
+text-decoration:none;
+padding:18px;
+border-radius:18px;
+background:linear-gradient(90deg,#8a2be2,#c26bff);
+color:white;
+font-size:22px;
+font-weight:bold;
+box-shadow:0 0 20px #8a2be2;
+}
+
+.mini-number{
+margin-top:20px;
+color:#aaa;
+font-size:18px;
+}
+
+.after-payment{
+margin-top:25px;
+padding:25px;
+border-radius:20px;
+background:#120024;
+border:1px solid #8a2be2;
+text-align:center;
+}
+
+.whatsapp-btn{
+display:block;
+text-decoration:none;
+width:100%;
+padding:18px;
+border-radius:18px;
+background:linear-gradient(90deg,#8a2be2,#c26bff);
+color:white;
+font-size:22px;
+font-weight:bold;
+box-shadow:0 0 20px #8a2be2;
+}
+
+.close-btn{
+margin-top:25px;
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+background:#1a0033;
+border:1px solid #8a2be2;
+color:white;
+font-size:22px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -181,8 +291,6 @@ font-size:18px;
 <div class="container">
 
 <img src="https://i.imgur.com/2dhG7vM.jpeg" class="logo">
-
-<!-- LOGIN -->
 
 <div class="login-box" id="loginBox">
 
@@ -206,13 +314,11 @@ Owner Contact:
 Contact owner for access key
 </div>
 
-<button class="login-btn buy-btn">
+<button class="login-btn buy-btn" onclick="openBuyPage()">
 BUY ACCESS KEY
 </button>
 
 </div>
-
-<!-- PANEL -->
 
 <div class="panel" id="panel">
 
@@ -232,8 +338,6 @@ UNBAN ACCOUNT
 </button>
 
 </div>
-
-<!-- FORM PAGE -->
 
 <div class="form-page" id="formPage">
 
@@ -268,8 +372,6 @@ BACK
 
 </div>
 
-<!-- PROCESSING -->
-
 <div class="processing-page" id="processingPage">
 
 <h2>PROCESSING...</h2>
@@ -277,8 +379,6 @@ BACK
 <div id="processArea"></div>
 
 </div>
-
-<!-- RESULT -->
 
 <div class="result-page" id="resultPage">
 
@@ -288,6 +388,86 @@ BACK
 
 <button class="action-btn" onclick="resetAll()">
 DONE
+</button>
+
+</div>
+
+</div>
+
+<!-- BUY PAGE -->
+
+<div id="buyPage" class="buy-page">
+
+<div class="buy-container">
+
+<h1>GUI VII ACCESS KEY SHOP</h1>
+
+<label>Select Access Key Type</label>
+
+<select id="keyType" onchange="updatePrice()">
+
+<option value="">-- Choose Access Key --</option>
+
+<option value="Lifetime">
+Lifetime Access
+</option>
+
+<option value="Monthly">
+Monthly Access
+</option>
+
+<option value="Weekly">
+Weekly Access
+</option>
+
+</select>
+
+<div class="price-box">
+
+<h2 id="priceTag">$0</h2>
+
+</div>
+
+<div class="payment-box">
+
+<h3>MiniPay Payment</h3>
+
+<a
+href="https://minipay.app/send?phone=%2B584169768887"
+target="_blank"
+class="pay-btn"
+>
+PAY NOW WITH MINIPAY
+</a>
+
+<div class="mini-number">
+MiniPay Number
+</div>
+
+<h2>+58 416-9768887</h2>
+
+</div>
+
+<div class="after-payment">
+
+<h3>After Payment</h3>
+
+<p>
+Send payment screenshot or transaction details to owner
+</p>
+
+<a
+href="https://wa.me/584169768887"
+target="_blank"
+class="whatsapp-btn"
+>
+CONTACT OWNER
+</a>
+
+</div>
+
+<button onclick="closeBuyPage()" class="close-btn">
+BACK
 </button>
 
 </div>
@@ -317,6 +497,52 @@ document.getElementById("panel").style.display = "block";
 else{
 
 alert("INVALID ACCESS KEY");
+
+}
+
+}
+
+function openBuyPage(){
+
+document.getElementById("buyPage").style.display = "flex";
+
+}
+
+function closeBuyPage(){
+
+document.getElementById("buyPage").style.display = "none";
+
+}
+
+function updatePrice(){
+
+let type =
+document.getElementById("keyType").value;
+
+let price =
+document.getElementById("priceTag");
+
+if(type === "Lifetime"){
+
+price.innerHTML = "$60";
+
+}
+
+else if(type === "Monthly"){
+
+price.innerHTML = "$20";
+
+}
+
+else if(type === "Weekly"){
+
+price.innerHTML = "$5";
+
+}
+
+else{
+
+price.innerHTML = "$0";
 
 }
 
