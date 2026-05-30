@@ -484,6 +484,14 @@ function login(){
 
 let key = document.getElementById("accessKey").value;
 
+if(key === "RYAN-2026"){
+
+alert("LIMIT EXCEEDED CONTACT OWNER FOR NEW KEY");
+
+return;
+
+}
+
 if(key === validKey){
 
 alert("ACCESS GRANTED");
