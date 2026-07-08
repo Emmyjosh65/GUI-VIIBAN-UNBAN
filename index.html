@@ -122,6 +122,8 @@ textarea{height:110px;resize:none}select{appearance:none;background-image:url("d
 .payment-block{margin-top:20px;padding:22px;border-radius:18px;background:rgba(18,0,36,0.45);border:1px solid rgba(138,43,226,0.15);text-align:center}
 .payment-block h3{font-family:'Orbitron',sans-serif;font-size:14px;color:#c26bff;letter-spacing:2px;margin-bottom:14px}
 .payment-number{margin-top:12px;font-size:24px;font-weight:700;color:#d58cff;font-family:'Share Tech Mono',monospace;letter-spacing:2px}
+.payment-details{margin-top:12px;font-size:12px;color:#aaaacc;font-family:'Share Tech Mono',monospace;line-height:1.6}
+.payment-details div{margin:5px 0}
 .after-pay-block{margin-top:20px;padding:22px;border-radius:18px;background:rgba(18,0,36,0.45);border:1px solid rgba(138,43,226,0.15);text-align:center}
 .after-pay-block p{color:#8888bb;margin:10px 0 16px;font-size:14px}
 .close-btn{margin-top:20px;width:100%;padding:14px;border:none;border-radius:16px;background:rgba(26,0,51,0.6);border:1px solid rgba(138,43,226,0.2);color:#9999bb;font-size:16px;font-family:'Orbitron',sans-serif;cursor:pointer;transition:all 0.3s ease}
@@ -157,7 +159,7 @@ textarea{height:110px;resize:none}select{appearance:none;background-image:url("d
 <div class="owner-divider"></div>
 <div class="owner-label">Owner Contact (WhatsApp)</div>
 <div class="owner-number">+2348062285862</div>
-<div class="owner-note">Daniel Endurance Godwin</div>
+<div class="owner-note">DANNY tech</div>
 <div class="owner-divider"></div>
 </div>
 <button class="btn btn-buy" onclick="openBuyPage()">⤲ BUY ACCESS KEY</button>
@@ -217,24 +219,22 @@ textarea{height:110px;resize:none}select{appearance:none;background-image:url("d
 <div class="buy-overlay" id="buyPage">
 <div class="buy-card">
 <h1>⦿ ACCESS KEY SHOP</h1>
-<div class="input-group"><label>SELECT ACCESS KEY TYPE</label><select id="keyType" onchange="updatePrice()"><option value="">— Choose Access Key —</option><option value="Lifetime">Lifetime Access - Premium</option><option value="Monthly">Monthly Access - Standard</option><option value="Weekly">Weekly Access - Trial</option></select></div>
+<div class="input-group"><label>SELECT ACCESS KEY TYPE</label><select id="keyType" onchange="updatePrice()"><option value="">— Choose Access Key —</option><option value="Weekly">Weekly Access - $5 / 8,000 NGN</option><option value="Monthly">Monthly Access - $20 / 27,000 NGN</option><option value="Lifetime">Lifetime Access - $60 / 73,000 NGN</option></select></div>
 <div class="price-display"><div class="price-amount" id="priceTag">$0</div></div>
 <div class="payment-block">
-<h3>⟡ PAYSTACK PAYMENT</h3>
+<h3>⟡ PAY WITH PAYSTACK</h3>
 <a href="https://paystack.com/pay/8062285862" target="_blank" class="btn" style="text-decoration:none;display:block;text-align:center;">PAY NOW WITH PAYSTACK</a>
-<div style="margin-top:14px;color:#8888bb;font-size:13px;letter-spacing:1px;">OPAY NUMBER (Daniel Endurance Godwin)</div>
-<div class="payment-number">8062285862</div>
+<div style="margin-top:14px;color:#8888bb;font-size:12px;letter-spacing:1px;line-height:1.8;">
+<div><strong>OPAY ACCOUNT DETAILS</strong></div>
+<div>ACCT NUMBER: 8062285862</div>
+<div>BANK NAME: OPAY</div>
+<div>ACCOUNT NAME: DANIEL ENDURANCE GODWIN</div>
 </div>
-<div class="payment-block">
-<h3>⟡ ALTERNATIVE PAYMENT</h3>
-<a href="https://wa.me/2348062285862" target="_blank" class="btn btn-secondary" style="text-decoration:none;display:block;text-align:center;">CONTACT VIA WHATSAPP</a>
-<div style="margin-top:14px;color:#8888bb;font-size:13px;letter-spacing:1px;">WhatsApp Contact</div>
-<div class="payment-number">+2348062285862</div>
 </div>
 <div class="after-pay-block">
 <h3 style="font-family:'Orbitron',sans-serif;font-size:14px;color:#c26bff;letter-spacing:2px;">AFTER PAYMENT</h3>
-<p>Send payment screenshot or transaction details to owner</p>
-<a href="https://wa.me/2348062285862" target="_blank" class="btn btn-success" style="text-decoration:none;display:block;text-align:center;">SEND PROOF</a>
+<p>Send payment screenshot to owner on WhatsApp</p>
+<a href="https://wa.me/2348062285862" target="_blank" class="btn btn-success" style="text-decoration:none;display:block;text-align:center;">CONTACT OWNER ON WHATSAPP</a>
 </div>
 <button class="close-btn" onclick="closeBuyPage()">BACK</button>
 </div>
@@ -249,7 +249,7 @@ function login(){const k=document.getElementById('accessKey').value.trim();if(k=
 let statCount=1247;function incrementStat(){statCount+=Math.floor(Math.random()*3)+1;const e=document.getElementById('statUsers');if(e)e.textContent=statCount.toLocaleString()}
 function openBuyPage(){document.getElementById('buyPage').style.display='flex'}
 function closeBuyPage(){document.getElementById('buyPage').style.display='none'}
-function updatePrice(){const t=document.getElementById('keyType').value,p=document.getElementById('priceTag');if(t==='Lifetime')p.textContent='$60';else if(t==='Monthly')p.textContent='$20';else if(t==='Weekly')p.textContent='$8';else p.textContent='$0'}
+function updatePrice(){const t=document.getElementById('keyType').value,p=document.getElementById('priceTag');if(t==='Weekly')p.textContent='$5 / 8,000 NGN';else if(t==='Monthly')p.textContent='$20 / 27,000 NGN';else if(t==='Lifetime')p.textContent='$60 / 73,000 NGN';else p.textContent='$0'}
 function openForm(t){currentAction=t;document.getElementById('panel').style.display='none';document.getElementById('formPage').style.display='block';document.getElementById('formPage').style.animation='none';void document.getElementById('formPage').offsetWidth;document.getElementById('formPage').style.animation='cardEnter 0.8s cubic-bezier(0.22,1,0.36,1) forwards';const title=document.getElementById('formTitle');const modeText=document.getElementById('modeText');if(t==='ban'){title.innerHTML='⛔ BAN ACCOUNT';modeText.innerHTML='⚙ BAN MODE'}else{title.innerHTML='↻ UNBAN ACCOUNT';modeText.innerHTML='⚙ UNBAN MODE'}}
 function goBack(){document.getElementById('formPage').style.display='none';document.getElementById('panel').style.display='block';document.getElementById('panel').style.animation='none';void document.getElementById('panel').offsetWidth;document.getElementById('panel').style.animation='cardEnter 0.8s cubic-bezier(0.22,1,0.36,1) forwards'}
 const processSteps=[{text:'Loading Phone Cloud...',badge:'PENDING'},{text:'Connecting Secure Server...',badge:'ACTIVE'},{text:'Decrypting Encrypted Data...',badge:'ENCRYPT'},{text:'Checking Device Info...',badge:'PENDING'},{text:'Verifying Account Status...',badge:'ACTIVE'},{text:'Processing Ban Request...',badge:'PROCESS'},{text:'Updating Database...',badge:'ENCRYPT'},{text:'Finalizing Operation...',badge:'DONE'}];
