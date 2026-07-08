@@ -4,1134 +4,214 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GUI VII BAN & UNBAN v4.0 — PREMIUM</title>
-
-<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-/* ===== RESET & BASE ===== */
-* {
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-html, body {
-width:100%;
-min-height:100vh;
-background:#04010A;
-color:#ffffff;
-font-family:'Poppins',sans-serif;
-overflow-x:hidden;
-scroll-behavior:smooth;
-}
-
-/* ===== TYPOGRAPHY ===== */
-h1, h2, h3, h4, .title-font {
-font-family:'Orbitron',sans-serif;
-letter-spacing:2px;
-text-transform:uppercase;
-}
-.mono, code, .terminal-text, .process, .console-line {
-font-family:'Share Tech Mono',monospace;
-letter-spacing:1px;
-}
-
-/* ===== ANIMATED BACKGROUND LAYERS ===== */
-#bg-layer {
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-z-index:-3;
-background:#04010A;
-}
-
-/* Matrix canvas */
-#matrix-canvas {
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-z-index:-2;
-opacity:0.35;
-pointer-events:none;
-}
-
-/* Cyber grid overlay */
-#cyber-grid {
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-z-index:-1;
-pointer-events:none;
-opacity:0.12;
-background-image:
-linear-gradient(rgba(0,229,255,0.15) 1px, transparent 1px),
-linear-gradient(90deg, rgba(0,229,255,0.15) 1px, transparent 1px);
-background-size:60px 60px;
-animation:gridPulse 8s ease-in-out infinite;
-}
-@keyframes gridPulse {
-0%,100% { opacity:0.12; }
-50% { opacity:0.25; }
-}
-
-/* Animated glow blobs */
-.glow-blob {
-position:fixed;
-border-radius:50%;
-filter:blur(120px);
-pointer-events:none;
-z-index:-1;
-animation:blobFloat 20s ease-in-out infinite;
-}
-.glow-blob-1 {
-width:550px;height:550px;
-background:radial-gradient(circle,#8A2BE240 0%,transparent 70%);
-top:-150px;left:-100px;
-animation-delay:0s;
-}
-.glow-blob-2 {
-width:450px;height:450px;
-background:radial-gradient(circle,#B84DFF30 0%,transparent 70%);
-bottom:-100px;right:-80px;
-animation-delay:-7s;
-}
-.glow-blob-3 {
-width:350px;height:350px;
-background:radial-gradient(circle,#00E5FF20 0%,transparent 70%);
-top:40%;left:60%;
-animation-delay:-14s;
-}
-@keyframes blobFloat {
-0%,100% { transform:translate(0,0) scale(1); }
-25% { transform:translate(40px,-30px) scale(1.1); }
-50% { transform:translate(-20px,20px) scale(0.95); }
-75% { transform:translate(30px,40px) scale(1.05); }
-}
-
-/* Scanlines overlay */
-#scanlines {
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-pointer-events:none;
-z-index:9997;
-background:repeating-linear-gradient(
-0deg,
-transparent 0px, transparent 2px,
-rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
-);
-}
-
-/* Particles container */
-#particles-container {
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-z-index:-1;
-pointer-events:none;
-}
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width:6px; }
-::-webkit-scrollbar-track { background:#04010A; }
-::-webkit-scrollbar-thumb { background:#8A2BE2; border-radius:3px; }
-::-webkit-scrollbar-thumb:hover { background:#B84DFF; }
-
-/* ===== CONTAINER ===== */
-.container {
-width:100%;
-max-width:520px;
-margin:0 auto;
-padding:25px 20px 50px;
-position:relative;
-}/* ===== LOGO WRAPPER ===== */
-.logo-wrapper {
-position:relative;
-width:100%;
-margin-bottom:30px;
-border-radius:28px;
-overflow:hidden;
-animation:enterLogo 1.2s cubic-bezier(0.22,1,0.36,1) forwards;
-opacity:0;
-transform:translateY(30px) scale(0.95);
-}
-@keyframes enterLogo {
-to { opacity:1; transform:translateY(0) scale(1); }
-}
-.logo-wrapper::before {
-content:'';
-position:absolute;
-top:-3px;left:-3px;
-right:-3px;bottom:-3px;
-border-radius:30px;
-background:linear-gradient(90deg,#8A2BE2,#B84DFF,#00E5FF,#B84DFF,#8A2BE2);
-background-size:400% 100%;
-z-index:-1;
-animation:borderRun 4s linear infinite;
-}
-@keyframes borderRun {
-0% { background-position:0% 50%; }
-100% { background-position:400% 50%; }
-}
-.logo-wrapper::after {
-content:'';
-position:absolute;
-inset:0;
-border-radius:28px;
-box-shadow:0 0 60px rgba(138,43,226,0.4), inset 0 0 80px rgba(138,43,226,0.1);
-animation:logoGlowPulse 3s ease-in-out infinite;
-}
-@keyframes logoGlowPulse {
-0%,100% { box-shadow:0 0 60px rgba(138,43,226,0.4), inset 0 0 80px rgba(138,43,226,0.1); }
-50% { box-shadow:0 0 100px rgba(184,77,255,0.6), inset 0 0 120px rgba(0,229,255,0.05); }
-}
-.logo {
-width:100%;
-display:block;
-border-radius:28px;
-border:3px solid rgba(138,43,226,0.6);
-position:relative;
-z-index:1;
-}
-
-/* ===== GLASS CARD COMMON ===== */
-.glass-card {
-background:rgba(9,0,24,0.88);
-backdrop-filter:blur(16px) saturate(1.2);
--webkit-backdrop-filter:blur(16px) saturate(1.2);
-border:1.5px solid rgba(138,43,226,0.3);
-border-radius:28px;
-padding:30px 26px;
-box-shadow:0 0 50px rgba(138,43,226,0.08), inset 0 0 80px rgba(138,43,226,0.03);
-transition:all 0.5s cubic-bezier(0.22,1,0.36,1);
-animation:cardEnter 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
-opacity:0;
-transform:translateY(20px);
-}
-@keyframes cardEnter {
-to { opacity:1; transform:translateY(0); }
-}
-.glass-card:hover {
-border-color:rgba(184,77,255,0.5);
-box-shadow:0 0 70px rgba(138,43,226,0.15), inset 0 0 80px rgba(138,43,226,0.05);
-}
-
-/* ===== STATUS BAR ===== */
-.status-bar {
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-bottom:22px;
-justify-content:center;
-}
-.status-item {
-display:flex;
-align-items:center;
-gap:8px;
-font-size:11px;
-font-family:'Orbitron',sans-serif;
-letter-spacing:1px;
-text-transform:uppercase;
-color:#9999bb;
-padding:6px 14px;
-background:rgba(138,43,226,0.08);
-border:1px solid rgba(138,43,226,0.15);
-border-radius:30px;
-}
-.status-dot {
-width:8px;height:8px;
-border-radius:50%;
-display:inline-block;
-animation:dotPulse 2s ease-in-out infinite;
-}
-.status-dot.green { background:#00FF88; box-shadow:0 0 10px #00FF8860; }
-.status-dot.purple { background:#B84DFF; box-shadow:0 0 10px #B84DFF60; }
-.status-dot.cyan { background:#00E5FF; box-shadow:0 0 10px #00E5FF60; }
-@keyframes dotPulse {
-0%,100% { opacity:1; transform:scale(1); }
-50% { opacity:0.6; transform:scale(0.85); }
-}
-
-/* ===== SECTION TITLES ===== */
-.section-title {
-text-align:center;
-color:#d58cff;
-margin-bottom:20px;
-font-size:22px;
-letter-spacing:3px;
-text-shadow:0 0 30px rgba(184,77,255,0.2);
-}
-.section-sub {
-text-align:center;
-color:#9999bb;
-font-size:13px;
-margin-bottom:25px;
-letter-spacing:/* ===== INPUTS ===== */
-.input-group {
-position:relative;
-margin-bottom:22px;
-}
-.input-group label {
-display:block;
-margin-bottom:8px;
-color:#c26bff;
-font-size:13px;
-font-family:'Orbitron',sans-serif;
-letter-spacing:1.5px;
-text-transform:uppercase;
-}
-.input-box, .input-group input, select, textarea {
-width:100%;
-padding:18px 20px;
-background:rgba(0,0,0,0.6);
-border:1.5px solid rgba(138,43,226,0.3);
-border-radius:18px;
-color:#e0e0ff;
-font-size:16px;
-font-family:'Share Tech Mono',monospace;
-outline:none;
-transition:all 0.35s ease;
-letter-spacing:1px;
-}
-.input-box:focus, .input-group input:focus, select:focus, textarea:focus {
-border-color:#B84DFF;
-box-shadow:0 0 30px rgba(184,77,255,0.15), inset 0 0 25px rgba(138,43,226,0.05);
-background:rgba(8,0,25,0.9);
-}
-.input-box::placeholder, .input-group input::placeholder {
-color:#555577;
-font-family:'Share Tech Mono',monospace;
-}
-textarea {
-height:120px;
-resize:none;
-}
-select {
-appearance:none;
-background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath fill='%23B84DFF' d='M1 1l6 6 6-6'/%3E%3C/svg%3E");
-background-repeat:no-repeat;
-background-position:right 20px center;
-padding-right:50px;
-}
-
-/* ===== BUTTONS ===== */
-.btn {
-position:relative;
-width:100%;
-padding:18px 24px;
-border:none;
-border-radius:20px;
-background:linear-gradient(135deg,#7b2dbe,#B84DFF,#a855f7);
-background-size:200% 200%;
-color:#ffffff;
-font-size:18px;
-font-weight:600;
-font-family:'Orbitron',sans-serif;
-cursor:pointer;
-letter-spacing:3px;
-text-transform:uppercase;
-box-shadow:0 0 35px rgba(138,43,226,0.25);
-transition:all 0.45s ease;
-overflow:hidden;
-}
-.btn:hover {
-background-position:100% 100%;
-box-shadow:0 0 60px rgba(184,77,255,0.45), 0 0 120px rgba(138,43,226,0.15);
-transform:translateY(-3px) scale(1.01);
-}
-.btn:active {
-transform:translateY(1px) scale(0.98);
-}
-.btn::after {
-content:'';
-position:absolute;
-top:-60%;left:-60%;
-width:220%;height:220%;
-background:linear-gradient(45deg,transparent 25%,rgba(255,255,255,0.06) 45%,transparent 65%);
-animation:btnShimmer 4s ease-in-out infinite;
-}
-@keyframes btnShimmer {
-0% { transform:translateX(-100%) rotate(25deg); }
-100% { transform:translateX(100%) rotate(25deg); }
-}
-.btn-secondary {
-background:linear-gradient(135deg,#1a0033,#3a1a5a);
-box-shadow:0 0 20px rgba(138,43,226,0.1);
-}
-.btn-secondary:hover {
-background:linear-gradient(135deg,#2d0055,#5a2d8a);
-box-shadow:0 0 40px rgba(138,43,226,0.25);
-}
-.btn-buy {
-background:linear-gradient(135deg,#2d1b4e,#6b3fa0);
-}
-.btn-success {
-background:linear-gradient(135deg,#075e54,#25d366);
-box-shadow:0 0 30px rgba(37,211,102,0.2);
-}
-.btn-success:hover {
-box-shadow:0 0 60px rgba(37,211,102,0.4);
-}
-
-/* Ripple effect container */
-.ripple-container {
-position:relative;
-overflow:hidden;
-}
-.ripple-effect {
-position:absolute;
-border-radius:50%;
-background:rgba(255,255,255,0.15);
-transform:scale(0);
-animation:rippleAnim 0.6s ease-out;
-pointer-events:none;
-}
-@keyframes rippleAnim {
-to { transform:scale(4); opacity:0; }
-}/* ===== OWNER SECTION ===== */
-.owner-section {
-margin-top:28px;
-text-align:center;
-padding:20px;
-border-radius:18px;
-background:rgba(138,43,226,0.04);
-border:1px solid rgba(138,43,226,0.12);
-}
-.owner-label {
-font-size:13px;
-font-family:'Orbitron',sans-serif;
-color:#9999bb;
-letter-spacing:2px;
-text-transform:uppercase;
-margin-bottom:8px;
-}
-.owner-number {
-font-size:30px;
-font-weight:700;
-color:#d58cff;
-text-shadow:0 0 40px rgba(184,77,255,0.25);
-letter-spacing:3px;
-font-family:'Share Tech Mono',monospace;
-}
-.owner-note {
-margin-top:10px;
-color:#7777aa;
-font-size:14px;
-}
-.owner-divider {
-width:60px;height:2px;
-background:linear-gradient(90deg,transparent,#8A2BE2,transparent);
-margin:15px auto;
-}
-
-/* ===== PROCESS LINES ===== */
-.process {
-background:rgba(18,0,36,0.6);
-border:1px solid rgba(138,43,226,0.15);
-border-radius:12px;
-padding:14px 18px;
-margin-bottom:10px;
-color:#b0b0dd;
-font-family:'Share Tech Mono',monospace;
-font-size:14px;
-letter-spacing:1px;
-border-left:3px solid #8A2BE2;
-transition:all 0.4s ease;
-display:flex;
-align-items:center;
-gap:12px;
-animation:stepFadeIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
-opacity:0;
-transform:translateX(-15px);
-}
-@keyframes stepFadeIn {
-to { opacity:1; transform:translateX(0); }
-}
-.process .step-icon {
-color:#B84DFF;
-font-size:12px;
-flex-shrink:0;
-}
-.process .step-badge {
-margin-left:auto;
-padding:2px 14px;
-border-radius:20px;
-font-size:10px;
-font-family:'Orbitron',sans-serif;
-letter-spacing:1px;
-flex-shrink:0;
-}
-.badge-proc {
-background:rgba(255,193,7,0.12);
-color:#ffc107;
-border:1px solid rgba(255,193,7,0.2);
-}
-.badge-done {
-background:rgba(0,255,136,0.12);
-color:#00FF88;
-border:1px solid rgba(0,255,136,0.2);
-}
-
-/* ===== PROGRESS BAR ===== */
-.progress-container {
-margin-bottom:20px;
-}
-.progress-header {
-display:flex;
-justify-content:space-between;
-font-family:'Orbitron',sans-serif;
-font-size:12px;
-color:#9999bb;
-letter-spacing:1px;
-margin-bottom:8px;
-}
-.progress-track {
-width:100%;
-height:6px;
-background:rgba(138,43,226,0.12);
-border-radius:3px;
-overflow:hidden;
-}
-.progress-fill {
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#8A2BE2,#B84DFF,#00E5FF);
-background-size:200% 100%;
-border-radius:3px;
-transition:width 0.5s ease;
-animation:progressGlow 2s ease-in-out infinite;
-}
-@keyframes progressGlow {
-0%,100% { background-position:0% 50%; }
-50% { background-position:100% 50%; }
-}
-
-/* ===== RESULT ===== */
-.result-card .process {
-background:rgba(0,30,15,0.3);
-border-color:rgba(0,255,136,0.15);
-border-left-color:#00FF88;
-}
-.result-card .process .step-icon {
-color:#00FF88;
-}
-.success-badge {
-text-align:center;
-margin-top:25px;
-padding:20px;
-border-radius:18px;
-background:rgba(0,255,136,0.06);
-border:1px solid rgba(0,255,136,0.2);
-}
-.success-badge .check-icon {
-display:inline-block;
-width:60px;height:60px;
-border-radius:50%;
-background:linear-gradient(135deg,#00FF8840,#00FF8820);
-border:2px solid #00FF88;
-line-height:56px;
-font-size:30px;
-color:#00FF88;
-margin-bottom:12px;
-box-shadow:0 0 50px rgba(0,255,136,0.2);
-animation:checkPulse 2s ease-in-out infinite;
-}
-@keyframes checkPulse {
-0%,100% { box-shadow:0 0 50px rgba(0,255,136,0.2); }
-50% { box-shadow:0 0 80px rgba(0,255,136,0.4); }
-}
-.success-badge .success-text {
-font-family:'Orbitron',sans-serif;
-font-size:22px;
-color:#00FF88;
-letter-spacing:3px;
-text-shadow:0 0 40px rgba(/* ===== BUY PAGE ===== */
-.buy-overlay {
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(4,1,10,0.92);
-backdrop-filter:blur(24px);
--webkit-backdrop-filter:blur(24px);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:9999;
-overflow:auto;
-padding:20px;
-animation:overlayEnter 0.5s cubic-bezier(0.22,1,0.36,1);
-}
-@keyframes overlayEnter {
-from { opacity:0; transform:scale(0.96) translateY(20px); }
-to { opacity:1; transform:scale(1) translateY(0); }
-}
-.buy-card {
-width:100%;
-max-width:440px;
-background:rgba(9,0,24,0.95);
-border:1.5px solid rgba(138,43,226,0.35);
-border-radius:30px;
-padding:30px 24px;
-box-shadow:0 0 80px rgba(138,43,226,0.12);
-}
-.buy-card h1 {
-text-align:center;
-color:#d58cff;
-margin-bottom:28px;
-font-size:26px;
-letter-spacing:3px;
-text-shadow:0 0 30px rgba(184,77,255,0.2);
-}
-.price-display {
-margin-top:20px;
-padding:28px;
-border-radius:20px;
-background:rgba(18,0,36,0.5);
-border:1px solid rgba(138,43,226,0.2);
-text-align:center;
-transition:all 0.5s ease;
-}
-.price-display:hover {
-border-color:#B84DFF;
-box-shadow:0 0 50px rgba(184,77,255,0.08);
-}
-.price-amount {
-font-size:48px;
-font-weight:700;
-font-family:'Orbitron',sans-serif;
-color:#d58cff;
-text-shadow:0 0 50px rgba(184,77,255,0.2);
-letter-spacing:4px;
-}
-.payment-block {
-margin-top:22px;
-padding:24px;
-border-radius:20px;
-background:rgba(18,0,36,0.5);
-border:1px solid rgba(138,43,226,0.2);
-text-align:center;
-}
-.payment-block h3 {
-font-family:'Orbitron',sans-serif;
-font-size:16px;
-color:#c26bff;
-letter-spacing:2px;
-margin-bottom:16px;
-}
-.payment-number {
-margin-top:14px;
-font-size:26px;
-font-weight:700;
-color:#d58cff;
-font-family:'Share Tech Mono',monospace;
-letter-spacing:2px;
-}
-.after-pay-block {
-margin-top:22px;
-padding:24px;
-border-radius:20px;
-background:rgba(18,0,36,0.5);
-border:1px solid rgba(138,43,226,0.2);
-text-align:center;
-}
-.after-pay-block p {
-color:#9999bb;
-margin:12px 0 18px;
-font-size:15px;
-}
-.close-btn {
-margin-top:22px;
-width:100%;
-padding:16px;
-border:none;
-border-radius:18px;
-background:rgba(26,0,51,0.7);
-border:1px solid rgba(138,43,226,0.25);
-color:#aaaacc;
-font-size:18px;
-font-family:'Orbitron',sans-serif;
-cursor:pointer;
-letter-spacing:2px;
-transition:all 0.35s ease;
-}
-.close-btn:hover {
-background:rgba(40,0,80,0.8);
-border-color:#B84DFF;
-color:white;
-}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:600px) {
-.container { padding:18px 14px 40px; }
-.glass-card { padding:22px 18px; border-radius:22px; }
-.section-title { font-size:18px; }
-.btn { padding:16px 20px; font-size:16px; }
-.owner-number { font-size:24px; }
-.price-amount { font-size:38px; }
-.buy-card { padding:22px 16px; }
-.status-item { font-size:9px; padding:4px 10px; }
-.logo-wrapper { margin-bottom:22px; }
-}
-@media(max-width:400px) {
-.glass-card { padding:18px 14px; }
-.input-box, select, textarea { padding:14px 16px; font-size:14px; }
-.btn { padding:14px 16px; font-size:14px; letter-spacing:2px; }
-.section-title { font-size:16px; }<!-- ===== MAIN PANEL ===== -->
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;min-height:100vh;background:#04010A;color:#fff;font-family:'Poppins',sans-serif;overflow-x:hidden;scroll-behavior:smooth}
+h1,h2,h3,h4,.title-font{font-family:'Orbitron',sans-serif;letter-spacing:2px;text-transform:uppercase}
+.mono,.terminal-text,.process,.console-line{font-family:'Share Tech Mono',monospace;letter-spacing:1px}
+#bg-layer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-3;background:#04010A}
+#matrix-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;opacity:0.35;pointer-events:none}
+#cyber-grid{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:0.12;background-image:linear-gradient(rgba(0,229,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.15) 1px,transparent 1px);background-size:60px 60px;animation:gridPulse 8s ease-in-out infinite}
+@keyframes gridPulse{0%,100%{opacity:0.12}50%{opacity:0.25}}
+.glow-blob{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:-1;animation:blobFloat 20s ease-in-out infinite}
+.glow-blob-1{width:550px;height:550px;background:radial-gradient(circle,#8A2BE240 0%,transparent 70%);top:-150px;left:-100px;animation-delay:0s}
+.glow-blob-2{width:450px;height:450px;background:radial-gradient(circle,#B84DFF30 0%,transparent 70%);bottom:-100px;right:-80px;animation-delay:-7s}
+.glow-blob-3{width:350px;height:350px;background:radial-gradient(circle,#00E5FF20 0%,transparent 70%);top:40%;left:60%;animation-delay:-14s}
+@keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-30px) scale(1.1)}50%{transform:translate(-20px,20px) scale(0.95)}75%{transform:translate(30px,40px) scale(1.05)}}
+#scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9997;background:repeating-linear-gradient(0deg,transparent 0px,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px)}
+#particles-container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#04010A}
+::-webkit-scrollbar-thumb{background:#8A2BE2;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#B84DFF}
+.container{width:100%;max-width:520px;margin:0 auto;padding:25px 20px 50px;position:relative}
+.logo-wrapper{position:relative;width:100%;margin-bottom:30px;border-radius:28px;overflow:hidden;animation:enterLogo 1.2s cubic-bezier(0.22,1,0.36,1) forwards;opacity:0;transform:translateY(30px) scale(0.95)}
+@keyframes enterLogo{to{opacity:1;transform:translateY(0) scale(1)}}
+.logo-wrapper::before{content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border-radius:30px;background:linear-gradient(90deg,#8A2BE2,#B84DFF,#00E5FF,#B84DFF,#8A2BE2);background-size:400% 100%;z-index:-1;animation:borderRun 4s linear infinite}
+@keyframes borderRun{0%{background-position:0% 50%}100%{background-position:400% 50%}}
+.logo-wrapper::after{content:'';position:absolute;inset:0;border-radius:28px;box-shadow:0 0 60px rgba(138,43,226,0.4),inset 0 0 80px rgba(138,43,226,0.1);animation:logoGlowPulse 3s ease-in-out infinite}
+@keyframes logoGlowPulse{0%,100%{box-shadow:0 0 60px rgba(138,43,226,0.4),inset 0 0 80px rgba(138,43,226,0.1)}50%{box-shadow:0 0 100px rgba(184,77,255,0.6),inset 0 0 120px rgba(0,229,255,0.05)}}
+.logo{width:100%;display:block;border-radius:28px;border:3px solid rgba(138,43,226,0.6);position:relative;z-index:1}
+.glass-card{background:rgba(9,0,24,0.88);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);border:1.5px solid rgba(138,43,226,0.3);border-radius:28px;padding:30px 26px;box-shadow:0 0 50px rgba(138,43,226,0.08),inset 0 0 80px rgba(138,43,226,0.03);transition:all 0.5s cubic-bezier(0.22,1,0.36,1);animation:cardEnter 0.8s cubic-bezier(0.22,1,0.36,1) forwards;opacity:0;transform:translateY(20px)}
+@keyframes cardEnter{to{opacity:1;transform:translateY(0)}}
+.glass-card:hover{border-color:rgba(184,77,255,0.5);box-shadow:0 0 70px rgba(138,43,226,0.15),inset 0 0 80px rgba(138,43,226,0.05)}
+.status-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;justify-content:center}
+.status-item{display:flex;align-items:center;gap:8px;font-size:11px;font-family:'Orbitron',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#9999bb;padding:6px 14px;background:rgba(138,43,226,0.08);border:1px solid rgba(138,43,226,0.15);border-radius:30px}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;animation:dotPulse 2s ease-in-out infinite}
+.status-dot.green{background:#00FF88;box-shadow:0 0 10px #00FF8860}
+.status-dot.purple{background:#B84DFF;box-shadow:0 0 10px #B84DFF60}
+.status-dot.cyan{background:#00E5FF;box-shadow:0 0 10px #00E5FF60}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(0.85)}}
+.section-title{text-align:center;color:#d58cff;margin-bottom:20px;font-size:22px;letter-spacing:3px;text-shadow:0 0 30px rgba(184,77,255,0.2)}
+.section-sub{text-align:center;color:#9999bb;font-size:13px;margin-bottom:25px;letter-spacing:1px}
+.input-group{position:relative;margin-bottom:22px}
+.input-group label{display:block;margin-bottom:8px;color:#c26bff;font-size:13px;font-family:'Orbitron',sans-serif;letter-spacing:1.5px;text-transform:uppercase}
+.input-box,.input-group input,select,textarea{width:100%;padding:18px 20px;background:rgba(0,0,0,0.6);border:1.5px solid rgba(138,43,226,0.3);border-radius:18px;color:#e0e0ff;font-size:16px;font-family:'Share Tech Mono',monospace;outline:none;transition:all 0.35s ease;letter-spacing:1px}
+.input-box:focus,.input-group input:focus,select:focus,textarea:focus{border-color:#B84DFF;box-shadow:0 0 30px rgba(184,77,255,0.15),inset 0 0 25px rgba(138,43,226,0.05);background:rgba(8,0,25,0.9)}
+.input-box::placeholder,.input-group input::placeholder{color:#555577;font-family:'Share Tech Mono',monospace}
+textarea{height:120px;resize:none}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath fill='%23B84DFF' d='M1 1l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 20px center;padding-right:50px}
+.btn{position:relative;width:100%;padding:18px 24px;border:none;border-radius:20px;background:linear-gradient(135deg,#7b2dbe,#B84DFF,#a855f7);background-size:200% 200%;color:#fff;font-size:18px;font-weight:600;font-family:'Orbitron',sans-serif;cursor:pointer;letter-spacing:3px;text-transform:uppercase;box-shadow:0 0 35px rgba(138,43,226,0.25);transition:all 0.45s ease;overflow:hidden}
+.btn:hover{background-position:100% 100%;box-shadow:0 0 60px rgba(184,77,255,0.45),0 0 120px rgba(138,43,226,0.15);transform:translateY(-3px) scale(1.01)}
+.btn:active{transform:translateY(1px) scale(0.98)}
+.btn::after{content:'';position:absolute;top:-60%;left:-60%;width:220%;height:220%;background:linear-gradient(45deg,transparent 25%,rgba(255,255,255,0.06) 45%,transparent 65%);animation:btnShimmer 4s ease-in-out infinite}
+@keyframes btnShimmer{0%{transform:translateX(-100%) rotate(25deg)}100%{transform:translateX(100%) rotate(25deg)}}
+.btn-secondary{background:linear-gradient(135deg,#1a0033,#3a1a5a);box-shadow:0 0 20px rgba(138,43,226,0.1)}
+.btn-secondary:hover{background:linear-gradient(135deg,#2d0055,#5a2d8a);box-shadow:0 0 40px rgba(138,43,226,0.25)}
+.btn-buy{background:linear-gradient(135deg,#2d1b4e,#6b3fa0)}
+.btn-success{background:linear-gradient(135deg,#075e54,#25d366);box-shadow:0 0 30px rgba(37,211,102,0.2)}
+.btn-success:hover{box-shadow:0 0 60px rgba(37,211,102,0.4)}
+.ripple-effect{position:absolute;border-radius:50%;background:rgba(255,255,255,0.15);transform:scale(0);animation:rippleAnim 0.6s ease-out;pointer-events:none}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+.owner-section{margin-top:28px;text-align:center;padding:20px;border-radius:18px;background:rgba(138,43,226,0.04);border:1px solid rgba(138,43,226,0.12)}
+.owner-label{font-size:13px;font-family:'Orbitron',sans-serif;color:#9999bb;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.owner-number{font-size:30px;font-weight:700;color:#d58cff;text-shadow:0 0 40px rgba(184,77,255,0.25);letter-spacing:3px;font-family:'Share Tech Mono',monospace}
+.owner-note{margin-top:10px;color:#7777aa;font-size:14px}
+.owner-divider{width:60px;height:2px;background:linear-gradient(90deg,transparent,#8A2BE2,transparent);margin:15px auto}
+.process{background:rgba(18,0,36,0.6);border:1px solid rgba(138,43,226,0.15);border-radius:12px;padding:14px 18px;margin-bottom:10px;color:#b0b0dd;font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:1px;border-left:3px solid #8A2BE2;transition:all 0.4s ease;display:flex;align-items:center;gap:12px;animation:stepFadeIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards;opacity:0;transform:translateX(-15px)}
+@keyframes stepFadeIn{to{opacity:1;transform:translateX(0)}}
+.process .step-icon{color:#B84DFF;font-size:12px;flex-shrink:0}
+.process .step-badge{margin-left:auto;padding:2px 14px;border-radius:20px;font-size:10px;font-family:'Orbitron',sans-serif;letter-spacing:1px;flex-shrink:0}
+.badge-proc{background:rgba(255,193,7,0.12);color:#ffc107;border:1px solid rgba(255,193,7,0.2)}
+.badge-done{background:rgba(0,255,136,0.12);color:#00FF88;border:1px solid rgba(0,255,136,0.2)}
+.progress-container{margin-bottom:20px}
+.progress-header{display:flex;justify-content:space-between;font-family:'Orbitron',sans-serif;font-size:12px;color:#9999bb;letter-spacing:1px;margin-bottom:8px}
+.progress-track{width:100%;height:6px;background:rgba(138,43,226,0.12);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#8A2BE2,#B84DFF,#00E5FF);background-size:200% 100%;border-radius:3px;transition:width 0.5s ease;animation:progressGlow 2s ease-in-out infinite}
+@keyframes progressGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.result-card .process{background:rgba(0,30,15,0.3);border-color:rgba(0,255,136,0.15);border-left-color:#00FF88}
+.result-card .process .step-icon{color:#00FF88}
+.success-badge{text-align:center;margin-top:25px;padding:20px;border-radius:18px;background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.2)}
+.success-badge .check-icon{display:inline-block;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#00FF8840,#00FF8820);border:2px solid #00FF88;line-height:56px;font-size:30px;color:#00FF88;margin-bottom:12px;box-shadow:0 0 50px rgba(0,255,136,0.2);animation:checkPulse 2s ease-in-out infinite}
+@keyframes checkPulse{0%,100%{box-shadow:0 0 50px rgba(0,255,136,0.2)}50%{box-shadow:0 0 80px rgba(0,255,136,0.4)}}
+.success-badge .success-text{font-family:'Orbitron',sans-serif;font-size:22px;color:#00FF88;letter-spacing:3px;text-shadow:0 0 40px rgba(0,255,136,0.3)}
+.buy-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(4,1,10,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:none;justify-content:center;align-items:center;z-index:9999;overflow:auto;padding:20px;animation:overlayEnter 0.5s cubic-bezier(0.22,1,0.36,1)}
+@keyframes overlayEnter{from{opacity:0;transform:scale(0.96) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.buy-card{width:100%;max-width:440px;background:rgba(9,0,24,0.95);border:1.5px solid rgba(138,43,226,0.35);border-radius:30px;padding:30px 24px;box-shadow:0 0 80px rgba(138,43,226,0.12)}
+.buy-card h1{text-align:center;color:#d58cff;margin-bottom:28px;font-size:26px;letter-spacing:3px;text-shadow:0 0 30px rgba(184,77,255,0.2)}
+.price-display{margin-top:20px;padding:28px;border-radius:20px;background:rgba(18,0,36,0.5);border:1px solid rgba(138,43,226,0.2);text-align:center;transition:all 0.5s ease}
+.price-display:hover{border-color:#B84DFF;box-shadow:0 0 50px rgba(184,77,255,0.08)}
+.price-amount{font-size:48px;font-weight:700;font-family:'Orbitron',sans-serif;color:#d58cff;text-shadow:0 0 50px rgba(184,77,255,0.2);letter-spacing:4px}
+.payment-block{margin-top:22px;padding:24px;border-radius:20px;background:rgba(18,0,36,0.5);border:1px solid rgba(138,43,226,0.2);text-align:center}
+.payment-block h3{font-family:'Orbitron',sans-serif;font-size:16px;color:#c26bff;letter-spacing:2px;margin-bottom:16px}
+.payment-number{margin-top:14px;font-size:26px;font-weight:700;color:#d58cff;font-family:'Share Tech Mono',monospace;letter-spacing:2px}
+.after-pay-block{margin-top:22px;padding:24px;border-radius:20px;background:rgba(18,0,36,0.5);border:1px solid rgba(138,43,226,0.2);text-align:center}
+.after-pay-block p{color:#9999bb;margin:12px 0 18px;font-size:15px}
+.close-btn{margin-top:22px;width:100%;padding:16px;border:none;border-radius:18px;background:rgba(26,0,51,0.7);border:1px solid rgba(138,43,226,0.25);color:#aaaacc;font-size:18px;font-family:'Orbitron',sans-serif;cursor:pointer;letter-spacing:2px;transition:all 0.35s ease}
+.close-btn:hover{background:rgba(40,0,80,0.8);border-color:#B84DFF;color:#fff}
+@media(max-width:600px){.container{padding:18px 14px 40px}.glass-card{padding:22px 18px;border-radius:22px}.section-title{font-size:18px}.btn{padding:16px 20px;font-size:16px}.owner-number{font-size:24px}.price-amount{font-size:38px}.buy-card{padding:22px 16px}.status-item{font-size:9px;padding:4px 10px}.logo-wrapper{margin-bottom:22px}}
+@media(max-width:400px){.glass-card{padding:18px 14px}.input-box,select,textarea{padding:14px 16px;font-size:14px}.btn{padding:14px 16px;font-size:14px;letter-spacing:2px}.section-title{font-size:16px}}
+</style>
+</head>
+<body>
+<div id="bg-layer"></div>
+<canvas id="matrix-canvas"></canvas>
+<div id="cyber-grid"></div>
+<div class="glow-blob glow-blob-1"></div>
+<div class="glow-blob glow-blob-2"></div>
+<div class="glow-blob glow-blob-3"></div>
+<div id="scanlines"></div>
+<canvas id="particles-container"></canvas>
+<div class="container">
+<div class="logo-wrapper"><img src="https://i.imgur.com/2dhG7vM.jpeg" class="logo" alt="GUI VII"></div>
+<div class="glass-card" id="loginBox" style="animation-delay:0.2s;">
+<div class="section-title">⦿ ACCESS KEY LOGIN</div>
+<div class="section-sub">— Secure Authentication Required —</div>
+<div class="input-group"><label>🔑 ENTER ACCESS KEY</label><input type="text" id="accessKey" class="input-box" placeholder="Enter Access Key"></div>
+<button class="btn" onclick="login()">⟐ LOGIN</button>
+<div class="owner-section">
+<div class="owner-divider"></div>
+<div class="owner-label">Owner Contact</div>
+<div class="owner-number">+58 416-9768887</div>
+<div class="owner-note">Contact owner for access key</div>
+<div class="owner-divider"></div>
+</div>
+<button class="btn btn-buy" onclick="openBuyPage()">⤲ BUY ACCESS KEY</button>
+</div>
 <div class="glass-card" id="panel" style="display:none;">
-
 <div class="section-title">⦿ GUI VII BAN &amp; UNBAN</div>
-
-<!-- Status bar -->
 <div class="status-bar">
 <div class="status-item"><span class="status-dot green"></span> SYSTEM OK</div>
 <div class="status-item"><span class="status-dot purple"></span> CLOUD SYNC</div>
 <div class="status-item"><span class="status-dot cyan"></span> SECURE</div>
 <div class="status-item" id="liveClock">00:00:00</div>
 </div>
-
 <div class="process">Loading Phone Cloud...</div>
 <div class="process">Connecting Secure Server...</div>
 <div class="process">Decrypting Encrypted Data...</div>
 <div class="process">Syncing Ban Database...</div>
-
-<div style="height:16px;"></div>
-
+<div style="height:16px"></div>
 <button class="btn" onclick="openForm('ban')">⛔ BAN ACCOUNT</button>
-
-<div style="height:14px;"></div>
-
+<div style="height:14px"></div>
 <button class="btn btn-secondary" onclick="openForm('unban')">↻ UNBAN ACCOUNT</button>
-
 </div>
-
-<!-- ===== FORM PAGE ===== -->
 <div class="glass-card" id="formPage" style="display:none;">
-
 <div class="section-title" id="formTitle">⛔ BAN ACCOUNT</div>
-
-<div class="input-group">
-<label>📱 TARGET NUMBER</label>
-<input type="text" id="number" class="input-box" placeholder="+234xxxxxxxxxx">
-</div>
-
-<div class="input-group">
-<label id="modeText">⚙ BAN MODE</label>
-<select id="mode">
-<option>Temporary Ban</option>
-<option>Permanent Ban</option>
-<option>Spam Restriction</option>
-<option>Business Ban</option>
-</select>
-</div>
-
-<div class="input-group">
-<label>📝 REASON</label>
-<textarea id="reason" placeholder="Enter reason..."></textarea>
-</div>
-
+<div class="input-group"><label>📱 TARGET NUMBER</label><input type="text" id="number" class="input-box" placeholder="+234xxxxxxxxxx"></div>
+<div class="input-group"><label id="modeText">⚙ BAN MODE</label><select id="mode"><option>Temporary Ban</option><option>Permanent Ban</option><option>Spam Restriction</option><option>Business Ban</option></select></div>
+<div class="input-group"><label>📝 REASON</label><textarea id="reason" placeholder="Enter reason..."></textarea></div>
 <button class="btn" onclick="startProcess()">▶ START PROCESS</button>
-
-<div style="height:14px;"></div>
-
+<div style="height:14px"></div>
 <button class="btn btn-secondary" onclick="goBack()">◀ BACK</button>
-
 </div>
-
-<!-- ===== PROCESSING PAGE ===== -->
 <div class="glass-card" id="processingPage" style="display:none;">
-
 <div class="section-title">⦿ PROCESSING</div>
-
-<!-- Progress bar -->
 <div class="progress-container">
-<div class="progress-header">
-<span>STATUS</span>
-<span id="progressPercent">0%</span>
+<div class="progress-header"><span>STATUS</span><span id="progressPercent">0%</span></div>
+<div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
 </div>
-<div class="progress-track">
-<div class="progress-fill" id="progressBar"></div>
-</div>
-</div>
-
-<!-- Terminal area -->
 <div id="processArea"></div>
-
-</div><!-- ===== RESULT PAGE ===== -->
+</div>
 <div class="glass-card result-card" id="resultPage" style="display:none;">
-
 <div class="section-title">⦿ RESULT</div>
-
 <div id="resultText"></div>
-
-<div style="height:18px;"></div>
-
+<div style="height:18px"></div>
 <button class="btn btn-success" onclick="resetAll()">✓ DONE</button>
-
 </div>
-
-</div><!-- end container -->
-
-<!-- ===== BUY PAGE OVERLAY ===== -->
+</div>
 <div class="buy-overlay" id="buyPage">
-
 <div class="buy-card">
-
 <h1>⦿ ACCESS KEY SHOP</h1>
-
-<div class="input-group">
-<label>SELECT ACCESS KEY TYPE</label>
-<select id="keyType" onchange="updatePrice()">
-<option value="">— Choose Access Key —</option>
-<option value="Lifetime">Lifetime Access</option>
-<option value="Monthly">Monthly Access</option>
-<option value="Weekly">Weekly Access</option>
-</select>
-</div>
-
-<div class="price-display">
-<div class="price-amount" id="priceTag">$0</div>
-</div>
-
+<div class="input-group"><label>SELECT ACCESS KEY TYPE</label><select id="keyType" onchange="updatePrice()"><option value="">— Choose Access Key —</option><option value="Lifetime">Lifetime Access</option><option value="Monthly">Monthly Access</option><option value="Weekly">Weekly Access</option></select></div>
+<div class="price-display"><div class="price-amount" id="priceTag">$0</div></div>
 <div class="payment-block">
 <h3>⟡ MiniPay Payment</h3>
-<a href="https://minipay.app/send?phone=%2B584169768887" target="_blank" class="btn" style="text-decoration:none;display:block;text-align:center;">
-PAY NOW WITH MINIPAY
-</a>
+<a href="https://minipay.app/send?phone=%2B584169768887" target="_blank" class="btn" style="text-decoration:none;display:block;text-align:center;">PAY NOW WITH MINIPAY</a>
 <div style="margin-top:16px;color:#9999bb;font-size:14px;letter-spacing:1px;">MiniPay Number</div>
 <div class="payment-number">+58 416-9768887</div>
 </div>
-
 <div class="after-pay-block">
 <h3 style="font-family:'Orbitron',sans-serif;font-size:16px;color:#c26bff;letter-spacing:2px;">After Payment</h3>
 <p>Send payment screenshot or transaction details to owner</p>
-<a href="https://wa.me/584169768887" target="_blank" class="btn btn-success" style="text-decoration:none;display:block;text-align:center;">
-CONTACT OWNER
-</a>
+<a href="https://wa.me/584169768887" target="_blank" class="btn btn-success" style="text-decoration:none;display:block;text-align:center;">CONTACT OWNER</a>
 </div>
-
 <button class="close-btn" onclick="closeBuyPage()">BACK</button>
-
 </div>
-
-</div><script>
-// ===== CONFIG =====
-const VALID_KEY = "GUI-VII-9961";
-let currentAction = "BAN";
-
-// ===== MATRIX RAIN =====
-(function initMatrix() {
-const canvas = document.getElementById('matrix-canvas');
-const ctx = canvas.getContext('2d');
-let w, h, cols, drops;
-const chars = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEF";
-const fontSize = 13;
-
-function resize() {
-w = canvas.width = window.innerWidth;
-h = canvas.height = window.innerHeight;
-cols = Math.floor(w / fontSize);
-drops = Array(cols).fill(1);
-}
-resize();
-window.addEventListener('resize', resize);
-
-function draw() {
-ctx.fillStyle = 'rgba(4,1,10,0.06)';
-ctx.fillRect(0,0,w,h);
-for(let i=0; i<drops.length; i++) {
-const char = chars[Math.floor(Math.random()*chars.length)];
-ctx.fillStyle = Math.random() > 0.92 ? '#B84DFF' : '#8A2BE2';
-ctx.font = fontSize + 'px monospace';
-ctx.fillText(char, i*fontSize, drops[i]*fontSize);
-if(drops[i]*fontSize > h && Math.random() > 0.975) drops[i]=0;
-drops[i]++;
-}
-requestAnimationFrame(draw);
-}
-draw();
-})();
-
-// ===== PARTICLES =====
-(function initParticles() {
-const canvas = document.getElementById('particles-container');
-const ctx = canvas.getContext('2d');
-let w, h, particles = [];
-
-function resize() {
-w = canvas.width = window.innerWidth;
-h = canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
-
-for(let i=0; i<50; i++) {
-particles.push({
-x: Math.random()*w,
-y: Math.random()*h,
-vx: (Math.random()-0.5)*0.4,
-vy: (Math.random()-0.5)*0.4,
-r: Math.random()*2+1,
-a: Math.random()*0.4+0.1
-});
-}
-
-function draw() {
-ctx.clearRect(0,0,w,h);
-for(let p of particles) {
-ctx.beginPath();
-ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-ctx.fillStyle = `rgba(138,43,226,${p.a})`;
-ctx.fill();
-p.x += p.vx;
-p.y += p.vy;
-if(p.x<0) p.x=w;
-if(p.x>w) p.x=0;
-if(p.y<0) p.y=h;
-if(p.y>h) p.y=0;
-}
-requestAnimationFrame(draw);
-}
-draw();
-})();
-
-// ===== LIVE CLOCK =====
-function updateClock() {
-const el = document.getElementById('liveClock');
-if(!el) return;
-const now = new Date();
-const hh = String(now.getHours()).padStart(2,'0');
-const mm = String(now.getMinutes()).padStart(2,'0');
-const ss = String(now.getSeconds()).padStart(2,'0');
-el.textContent = hh+':'+mm+':'+ss;
-requestAnimationFrame(updateClock);
-}
-setTimeout(() => requestAnimationFrame(updateClock), 100);
-
-// ===== LOGIN =====
-function login() {
-const key = document.getElementById('accessKey').value.trim();
-if(key === 'RYAN-2026') {
-alert('LIMIT EXCEEDED CONTACT OWNER FOR NEW KEY');
-return;
-}
-if(key === VALID_KEY) {
-alert('ACCESS GRANTED');
-document.getElementById('loginBox').style.display = 'none';
-document.getElementById('panel').style.display = 'block';
-document.getElementById('panel').style.animation = 'none';
-void document.getElementById('panel').offsetHeight;
-document.getElementById('panel').style.animation = 'cardEnter 0.8s cubic-bezier(0.22,1,0.36,1) forwards';
-} else {
-alert('INVALID ACCESS KEY');
-}
-}
-
-// ===== BUY PAGE =====
-function openBuyPage() {
-document.getElementById('buyPage').style.display = 'flex';
-}
-function closeBuyPage() {
-document.getElementById('buyPage').style.display = 'none';
-}
-function updatePrice() {
-const type = document.getElementById('keyType').value;
-const tag = document.getElementById('priceTag');
-if(type === 'Lifetime') tag.textContent = '$60';
-else if(type === 'Monthly') tag.textContent = '$20';
-else if(type === 'Weekly') tag.textContent = '$5';
-else tag.textContent = '$0';
-}
-
-// ===== FORM NAVIGATION =====
-function openForm(type) {
-currentAction = type;
-document.getElementById('panel').style.display = 'none';
-document.getElementById('formPage').style.display = 'block';
-document.getElementById('formPage').style.animation = 'none';
-void document.getElementById('formPage').offsetHeight;
-document.getElementById('formPage').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
-
-if(type === 'ban') {
-document.getElementById('formTitle').textContent = '⛔ BAN ACCOUNT';
-document.getElementById('modeText').textContent = '⚙ BAN MODE';
-} else {
-document.getElementById('formTitle').textContent = '↻ UNBAN ACCOUNT';
-document.getElementById('modeText').textContent = '⚙ UNBAN MODE';
-}
-}
-
-function goBack() {
-document.getElementById('formPage').style.display = 'none';
-document.getElementById('panel').style.display = 'block';
-document.getElementById('panel').style.animation = 'none';
-void document.getElementById('panel').offsetHeight;
-document.getElementById('panel').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
-}// ===== ENHANCED PROCESS STEPS =====
-const processSteps = [
-{ text:'Loading Phone Cloud...', badge:'PENDING' },
-{ text:'Connecting Secure Server...', badge:'ACTIVE' },
-{ text:'Decrypting Encrypted Data...', badge:'ENCRYPT' },
-{ text:'Checking Device Status...', badge:'VERIFY' },
-{ text:'Syncing Ban Database...', badge:'SYNC' },
-{ text:'Verifying Account Access...', badge:'VERIFY' },
-{ text:'Bypassing Security Layers...', badge:'BYPASS' },
-{ text:'Initializing System Kernel...', badge:'INIT' },
-{ text:'Fetching UID Information...', badge:'FETCH' },
-{ text:'Connecting Relay Nodes...', badge:'CONNECT' },
-{ text:'Reading Device Metadata...', badge:'READ' },
-{ text:'Scanning Target Account...', badge:'SCAN' },
-{ text:'Decrypting Cloud Packets...', badge:'DECRYPT' },
-{ text:'Generating Secure Tokens...', badge:'GENERATE' },
-{ text:'Inspecting Spam Reports...', badge:'INSPECT' },
-{ text:'Loading AI Moderation...', badge:'LOAD' },
-{ text:'Processing Account Logs...', badge:'PROCESS' },
-{ text:'Validating Cloud Signature...', badge:'VALIDATE' },
-{ text:'Establishing Secure Tunnel...', badge:'TUNNEL' },
-{ text:'Writing Audit Records...', badge:'WRITE' },
-{ text:'Finalizing Moderation System...', badge:'FINAL' },
-{ text:'Operation Completed...', badge:'DONE' }
-];
-
-function startProcess() {
-document.getElementById('formPage').style.display = 'none';
-document.getElementById('processingPage').style.display = 'block';
-document.getElementById('processingPage').style.animation = 'none';
-void document.getElementById('processingPage').offsetHeight;
-document.getElementById('processingPage').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
-
-const area = document.getElementById('processArea');
-area.innerHTML = '';
-
-// Progress bar elements
-const bar = document.getElementById('progressBar');
-const pct = document.getElementById('progressPercent');
-
-let i = 0;
-const total = processSteps.length;
-
-function addStep() {
-if(i >= total) {
-setTimeout(showResult, 600);
-return;
-}
-
-const step = processSteps[i];
-const percent = Math.round(((i + 1) / total) * 100);
-const isLast = (i === total - 1);
-const badgeClass = isLast ? 'badge-done' : 'badge-proc';
-const badgeText = isLast ? 'COMPLETED' : '● PROCESSING';
-const icon = isLast ? '✓' : '►';
-
-// Update progress
-if(bar) bar.style.width = percent + '%';
-if(pct) pct.textContent = percent + '%';
-
-// Create step element
-const el = document.createElement('div');
-el.className = 'process';
-el.style.animationDelay = '0s';
-el.innerHTML = `
-<span class="step-icon">${icon}</span>
-<span>${step.text}</span>
-<span class="step-badge ${badgeClass}">${badgeText}</span>
-`;
-area.appendChild(el);
-area.scrollTop = area.scrollHeight;
-
-i++;
-setTimeout(addStep, 450 + Math.random() * 250);
-}
-
-addStep();
-}
-
-// ===== SHOW RESULT =====
-function showResult() {
-document.getElementById('processingPage').style.display = 'none';
-document.getElementById('resultPage').style.display = 'block';
-document.getElementById('resultPage').style.animation = 'none';
-void document.getElementById('resultPage').offsetHeight;
-document.getElementById('resultPage').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
-
-const number = document.getElementById('number').value || 'N/A';
-const mode = document.getElementById('mode').value || 'N/A';
-const reason = document.getElementById('reason').value || 'N/A';
-
-const now = new Date();
-const ts = now.toLocaleString();
-const sid = Math.random().toString(36).substring(2,10).toUpperCase();
-const server = 'SRV-' + String(Math.floor(Math.random()*999)+1).padStart(3,'0');
-
-document.getElementById('resultText').innerHTML = `
-<div class="process"><span class="step-icon">📱</span> <span>Number: ${number}</span></div>
-<div class="process"><span class="step-icon">⚙</span> <span>Mode: ${mode}</span></div>
-<div class="process"><span class="step-icon">📝</span> <span>Reason: ${reason}</span></div>
-<div class="process"><span class="step-icon">🆔</span> <span>Session ID: ${sid}</span></div>
-<div class="process"><span class="step-icon">⏱</span> <span>Time: ${ts}</span></div>
-<div class="process"><span class="step-icon">🖥</span> <span>Server: ${server}</span></div>
-<div class="process"><span class="step-icon">🔒</span> <span>Security: SECURE</span></div>
-<div class="process"><span class="step-icon">☁</span> <span>Cloud: SYNCHRONIZED</span></div>
-<div class="success-badge">
-<div class="check-icon">✓</div>
-<div class="success-text">${currentAction.toUpperCase()} SUCCESSFUL</div>
 </div>
-`;
-}
-
-// ===== RESET =====
-function resetAll() {
-document.getElementById('resultPage').style.display = 'none';
-document.getElementById('panel').style.display = 'block';
-document.getElementById('panel').style.animation = 'none';
-void document.getElementById('panel').offsetHeight;
-document.getElementById('panel').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
-document.getElementById('number').value = '';
-document.getElementById('reason').value = '';
-}
-
-// ===== BUTTON RIPPLE (global) =====
-document.addEventListener('click', function(e) {
-const btn = e.target.closest('.btn');
-if(!btn) return;
-const rect = btn.getBoundingClientRect();
-const x = e.clientX - rect.left;
-const y = e.clientY - rect.top;
-const ripple = document.createElement('span');
-ripple.className = 'ripple-effect';
-ripple.style.left = x + 'px';
-ripple.style.top = y + 'px';
-ripple.style.width = '20px';
-ripple.style.height = '20px';
-ripple.style.marginLeft = '-10px';
-ripple.style.marginTop = '-10px';
-btn.style.position = 'relative';
-btn.style.overflow = 'hidden';
-btn.appendChild(ripple);
-setTimeout(() => ripple.remove(), // ===== KEYBOARD ENTER SUPPORT =====
-document.addEventListener('keydown', function(e) {
-if(e.key === 'Enter') {
-const loginBox = document.getElementById('loginBox');
-const formPage = document.getElementById('formPage');
-if(loginBox && loginBox.style.display !== 'none') {
-login();
-} else if(formPage && formPage.style.display !== 'none') {
-startProcess();
-}
-}
-});
-
-// ===== INITIAL FADE-IN FOR LOGIN =====
-window.addEventListener('load', function() {
-document.getElementById('loginBox').style.opacity = '1';
-});
-
-console.log('%c GUI VII BAN & UNBAN v4.0 — PREMIUM ',
-'background:#04010A; color:#B84DFF; font-size:20px; font-weight:bold; padding:10px 20px; border:2px solid #8A2BE2; border-radius:10px;');
-console.log('%c Authorized Security Terminal ', 'color:#00FF88; font-size:14px;');
+<script>
+const VALID_KEY="GUI-VII-9961";let currentAction="BAN";
+(function(){const c=document.getElementById('matrix-canvas'),x=c.getContext('2d');let w,h,cols,drops;const ch="アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEF";function rs(){w=c.width=window.innerWidth;h=c.height=window.innerHeight;cols=Math.floor(w/13);drops=Array(cols).fill(1)}rs();window.addEventListener('resize',rs);function dr(){x.fillStyle='rgba(4,1,10,0.06)';x.fillRect(0,0,w,h);for(let i=0;i<drops.length;i++){const t=ch[Math.floor(Math.random()*ch.length)];x.fillStyle=Math.random()>0.92?'#B84DFF':'#8A2BE2';x.font='13px monospace';x.fillText(t,i*13,drops[i]*13);if(drops[i]*13>h&&Math.random()>0.975)drops[i]=0;drops[i]++}requestAnimationFrame(dr)}dr()})();
+(function(){const c=document.getElementById('particles-container'),x=c.getContext('2d');let w,h,p=[];function rs(){w=c.width=window.innerWidth;h=c.height=window.innerHeight}rs();window.addEventListener('resize',rs);for(let i=0;i<50;i++){p.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.4,vy:(Math.random()-0.5)*0.4,r:Math.random()*2+1,a:Math.random()*0.4+0.1})}function dr(){x.clearRect(0,0,w,h);for(let o of p){x.beginPath();x.arc(o.x,o.y,o.r,0,Math.PI*2);x.fillStyle=`rgba(138,43,226,${o.a})`;x.fill();o.x+=o.vx;o.y+=o.vy;if(o.x<0)o.x=w;if(o.x>w)o.x=0;if(o.y<0)o.y=h;if(o.y>h)o.y=0}requestAnimationFrame(dr)}dr()})();
+function updateClock(){const e=document.getElementById('liveClock');if(!e)return;const n=new Date();e.textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');requestAnimationFrame(updateClock)}
+setTimeout(()=>requestAnimationFrame(updateClock),100);
+function login(){const k=document.getElementById('accessKey').value.trim();if(k==='RYAN-2026'){alert('LIMIT EXCEEDED CONTACT OWNER FOR NEW KEY');return}if(k===VALID_KEY){alert('ACCESS GRANTED');document.getElementById('loginBox').style.display='none';document.getElementById('panel').style.display='block';document.getElementById('panel').style.animation='none';void document.getElementById('panel').offsetHeight;document.getElementById('panel').style.animation='cardEnter 0.8s cubic-bezier(0.22,1,0.36,1) forwards'}else alert('INVALID ACCESS KEY')}
+function openBuyPage(){document.getElementById('buyPage').style.display='flex'}
+function closeBuyPage(){document.getElementById('buyPage').style.display='none'}
+function updatePrice(){const t=document.getElementById('keyType').value,p=document.getElementById('priceTag');if(t==='Lifetime')p.textContent='$60';else if(t==='Monthly')p.textContent='$20';else if(t==='Weekly')p.textContent='$5';else p.textContent='$0'}
+function openForm(t){currentAction=t;document.getElementById('panel').style.display='none';document.getElementById('formPage').style.display='block';document.getElementById('formPage').style.animation='none';void document.getElementById('formPage').offsetHeight;document.getElementById('formPage').style.animation='cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';if(t==='ban'){document.getElementById('formTitle').textContent='⛔ BAN ACCOUNT';document.getElementById('modeText').textContent='⚙ BAN MODE'}else{document.getElementById('formTitle').textContent='↻ UNBAN ACCOUNT';document.getElementById('modeText').textContent='⚙ UNBAN MODE'}}
+function goBack(){document.getElementById('formPage').style.display='none';document.getElementById('panel').style.display='block';document.getElementById('panel').style.animation='none';void document.getElementById('panel').offsetHeight;document.getElementById('panel').style.animation='cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards'}
+const processSteps=[{text:'Loading Phone Cloud...',badge:'PENDING'},{text:'Connecting Secure Server...',badge:'ACTIVE'},{text:'Decrypting Encrypted Data...',badge:'ENCRYPT'},{text:'Checking Device Status...',badge:'VERIFY'},{text:'Syncing Ban Database...',badge:'SYNC'},{text:'Verifying Account Access...',badge:'VERIFY'},{text:'Bypassing Security Layers...',badge:'BYPASS'},{text:'Initializing System Kernel...',badge:'INIT'},{text:'Fetching UID Information...',badge:'FETCH'},{text:'Connecting Relay Nodes...',badge:'CONNECT'},{text:'Reading Device Metadata...',badge:'READ'},{text:'Scanning Target Account...',badge:'SCAN'},{text:'Decrypting Cloud Packets...',badge:'DECRYPT'},{text:'Generating Secure Tokens...',badge:'GENERATE'},{text:'Inspecting Spam Reports...',badge:'INSPECT'},{text:'Loading AI Moderation...',badge:'LOAD'},{text:'Processing Account Logs...',badge:'PROCESS'},{text:'Validating Cloud Signature...',badge:'VALIDATE'},{text:'Establishing Secure Tunnel...',badge:'TUNNEL'},{text:'Writing Audit Records...',badge:'WRITE'},{text:'Finalizing Moderation System...',badge:'FINAL'},{text:'Operation Completed...',badge:'DONE'}];
+function startProcess(){document.getElementById('formPage').style.display='none';document.getElementById('processingPage').style.display='block';document.getElementById('processingPage').style.animation='none';void document.getElementById('processingPage').offsetHeight;document.getElementById('processingPage').style.animation='cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';const a=document.getElementById('processArea');a.innerHTML='';const b=document.getElementById('progressBar'),p=document.getElementById('progressPercent');let i=0;function st(){if(i>=processSteps.length){setTimeout(showResult,600);return}const s=processSteps[i],pr=Math.round(((i+1)/processSteps.length)*100),isL=i===processSteps.length-1;if(b)b.style.width=pr+'%';if(p)p.textContent=pr+'%';const e=document.createElement('div');e.className='process';e.innerHTML='<span class="step-icon">'+(isL?'✓':'►')+'</span><span>'+s.text+'</span><span class="step-badge '+(isL?'badge-done':'badge-proc')+'">'+(isL?'COMPLETED':'● PROCESSING')+'</span>';a.appendChild(e);a.scrollTop=a.scrollHeight;i++;setTimeout(st,450+Math.random()*250)}st()}
+function showResult(){document.getElementById('processingPage').style.display='none';document.getElementById('resultPage').style.display='block';document.getElementById('resultPage').style.animation='none';void document.getElementById('resultPage').offsetHeight;document.getElementById('resultPage').style.animation='cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';const n=document.getElementById('number').value||'N/A',m=document.getElementById('mode').value||'N/A',r=document.getElementById('reason').value||'N/A',ts=new Date().toLocaleString(),sid=Math.random().toString(36).substring(2,10).toUpperCase(),srv='SRV-'+String(Math.floor(Math.random()*999)+1).padStart(3,'0');document.getElementById('resultText').innerHTML='<div class="process"><span class="step-icon">📱</span><span>Number: '+n+'</span></div><div class="process"><span class="step-icon">⚙</span><span>Mode: '+m+'</span></div><div class="process"><span class="step-icon">📝</span><span>Reason: '+r+'</span></div><div class="process"><span class="step-icon">🆔</span><span>Session ID: '+sid+'</span></div><div class="process"><span class="step-icon">⏱</span><span>Time: '+ts+'</span></div><div class="process"><span class="step-icon">🖥</span><span>Server: '+srv+'</span></div><div class="process"><span class="step-icon">🔒</span><span>Security: SECURE</span></div><div class="process"><span class="step-icon">☁</span><span>Cloud: SYNCHRONIZED</span></div><div class="success-badge"><div class="check-icon">✓</div><div class="success-text">'+currentAction.toUpperCase()+' SUCCESSFUL</div></div>'}
+function resetAll(){document.getElementById('resultPage').style.display='none';document.getElementById('panel').style.display='block';document.getElementById('panel').style.animation='none';void document.getElementById('panel').offsetHeight;document.getElementById('panel').style.animation='cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';document.getElementById('number').value='';document.getElementById('reason').value=''}
+document.addEventListener('click',function(e){const btn=e.target.closest('.btn');if(!btn)return;const r=btn.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,ripple=document.createElement('span');ripple.className='ripple-effect';ripple.style.left=x+'px';ripple.style.top=y+'px';ripple.style.width='20px';ripple.style.height='20px';ripple.style.marginLeft='-10px';ripple.style.marginTop='-10px';btn.style.position='relative';btn.style.overflow='hidden';btn.appendChild(ripple);setTimeout(()=>ripple.remove(),600)})
+document.addEventListener('keydown',function(e){if(e.key==='Enter'){const lb=document.getElementById('loginBox'),fp=document.getElementById('formPage');if(lb&&lb.style.display!=='none')login();else if(fp&&fp.style.display!=='none')startProcess()}})
+window.addEventListener('load',function(){document.getElementById('loginBox').style.opacity='1'})
+console.log('%c GUI VII BAN & UNBAN v4.0 — PREMIUM ','background:#04010A;color:#B84DFF;font-size:20px;font-weight:bold;padding:10px 20px;border:2px solid #8A2BE2;border-radius:10px;')
+console.log('%c Authorized Security Terminal ','color:#00FF88;font-size:14px;')
 </script>
-
 </body>
 </html>
-```*
