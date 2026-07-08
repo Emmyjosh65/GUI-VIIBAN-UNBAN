@@ -3,882 +3,1135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GUI VII BAN & UNBAN v4.0 — PREMIUM</title>
 
-<title>GUI VII BAN & UNBAN v3.0</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
+/* ===== RESET & BASE ===== */
+* {
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Segoe UI','Courier New',monospace;
 }
-
-body{
-background:#0a0015;
-color:#e0e0ff;
-overflow-x:hidden;
+html, body {
+width:100%;
 min-height:100vh;
+background:#04010A;
+color:#ffffff;
+font-family:'Poppins',sans-serif;
+overflow-x:hidden;
+scroll-behavior:smooth;
 }
 
-/* Animated matrix rain background */
-body::before{
-content:'';
+/* ===== TYPOGRAPHY ===== */
+h1, h2, h3, h4, .title-font {
+font-family:'Orbitron',sans-serif;
+letter-spacing:2px;
+text-transform:uppercase;
+}
+.mono, code, .terminal-text, .process, .console-line {
+font-family:'Share Tech Mono',monospace;
+letter-spacing:1px;
+}
+
+/* ===== ANIMATED BACKGROUND LAYERS ===== */
+#bg-layer {
 position:fixed;
-top:0;left:0;width:100%;height:100%;
-background:linear-gradient(180deg,#0a0015 0%,#120024 40%,#0a0015 100%);
+top:0;left:0;
+width:100%;height:100%;
+z-index:-3;
+background:#04010A;
+}
+
+/* Matrix canvas */
+#matrix-canvas {
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
 z-index:-2;
-}
-
-#matrix-canvas{
-position:fixed;
-top:0;left:0;
-width:100%;
-height:100%;
-z-index:-1;
-opacity:0.25;
+opacity:0.35;
 pointer-events:none;
 }
 
-/* Glow pulse behind main container */
-body::after{
-content:'';
+/* Cyber grid overlay */
+#cyber-grid {
 position:fixed;
-width:600px;
-height:600px;
-background:radial-gradient(circle,#b366ff20 0%,transparent 70%);
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
+top:0;left:0;
+width:100%;height:100%;
+z-index:-1;
+pointer-events:none;
+opacity:0.12;
+background-image:
+linear-gradient(rgba(0,229,255,0.15) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,229,255,0.15) 1px, transparent 1px);
+background-size:60px 60px;
+animation:gridPulse 8s ease-in-out infinite;
+}
+@keyframes gridPulse {
+0%,100% { opacity:0.12; }
+50% { opacity:0.25; }
+}
+
+/* Animated glow blobs */
+.glow-blob {
+position:fixed;
+border-radius:50%;
 filter:blur(120px);
+pointer-events:none;
 z-index:-1;
-animation:pulseGlow 6s ease-in-out infinite;
+animation:blobFloat 20s ease-in-out infinite;
+}
+.glow-blob-1 {
+width:550px;height:550px;
+background:radial-gradient(circle,#8A2BE240 0%,transparent 70%);
+top:-150px;left:-100px;
+animation-delay:0s;
+}
+.glow-blob-2 {
+width:450px;height:450px;
+background:radial-gradient(circle,#B84DFF30 0%,transparent 70%);
+bottom:-100px;right:-80px;
+animation-delay:-7s;
+}
+.glow-blob-3 {
+width:350px;height:350px;
+background:radial-gradient(circle,#00E5FF20 0%,transparent 70%);
+top:40%;left:60%;
+animation-delay:-14s;
+}
+@keyframes blobFloat {
+0%,100% { transform:translate(0,0) scale(1); }
+25% { transform:translate(40px,-30px) scale(1.1); }
+50% { transform:translate(-20px,20px) scale(0.95); }
+75% { transform:translate(30px,40px) scale(1.05); }
 }
 
-@keyframes pulseGlow{
-0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1);}
-50%{opacity:1;transform:translate(-50%,-50%) scale(1.2);}
-}/* CRT scanline overlay */
-#scanlines{
+/* Scanlines overlay */
+#scanlines {
 position:fixed;
 top:0;left:0;
-width:100%;
-height:100%;
+width:100%;height:100%;
 pointer-events:none;
-z-index:9998;
+z-index:9997;
 background:repeating-linear-gradient(
 0deg,
-transparent 0px,
-transparent 2px,
-rgba(0,0,0,0.08) 2px,
-rgba(0,0,0,0.08) 4px
+transparent 0px, transparent 2px,
+rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
 );
 }
 
-.container{
-width:100%;
-max-width:520px;
-margin:auto;
-padding:25px 20px 40px;
-position:relative;
+/* Particles container */
+#particles-container {
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+z-index:-1;
+pointer-events:none;
 }
 
-/* Logo with animated neon border */
-.logo-wrapper{
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:#04010A; }
+::-webkit-scrollbar-thumb { background:#8A2BE2; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#B84DFF; }
+
+/* ===== CONTAINER ===== */
+.container {
+width:100%;
+max-width:520px;
+margin:0 auto;
+padding:25px 20px 50px;
+position:relative;
+}/* ===== LOGO WRAPPER ===== */
+.logo-wrapper {
 position:relative;
 width:100%;
 margin-bottom:30px;
-border-radius:25px;
+border-radius:28px;
 overflow:hidden;
-box-shadow:0 0 40px #8a2be2,0 0 80px #8a2be240;
-animation:logoPulse 3s ease-in-out infinite;
+animation:enterLogo 1.2s cubic-bezier(0.22,1,0.36,1) forwards;
+opacity:0;
+transform:translateY(30px) scale(0.95);
 }
-
-@keyframes logoPulse{
-0%,100%{box-shadow:0 0 40px #8a2be2,0 0 80px #8a2be240;}
-50%{box-shadow:0 0 60px #c26bff,0 0 120px #c26bff60;}
+@keyframes enterLogo {
+to { opacity:1; transform:translateY(0) scale(1); }
 }
-
-.logo{
-width:100%;
-display:block;
-border-radius:25px;
-border:3px solid #b366ff;
-}
-
-/* Glow border runner animation */
-.logo-wrapper::before{
+.logo-wrapper::before {
 content:'';
 position:absolute;
 top:-3px;left:-3px;
 right:-3px;bottom:-3px;
-border-radius:27px;
-background:linear-gradient(90deg,#8a2be2,#c26bff,#ff66ff,#c26bff,#8a2be2);
-background-size:400% 100%;
-animation:borderRun 4s linear infinite;
-z-index:-1;
-}
-
-@keyframes borderRun{
-0%{background-position:0% 50%;}
-100%{background-position:400% 50%;}
-}.login-box,
-.panel,
-.form-page,
-.processing-page,
-.result-page{
-background:rgba(7,0,20,0.92);
-backdrop-filter:blur(12px);
--webkit-backdrop-filter:blur(12px);
-border:2px solid rgba(138,43,226,0.5);
 border-radius:30px;
-padding:30px 28px;
-box-shadow:0 0 50px rgba(138,43,226,0.15),inset 0 0 60px rgba(138,43,226,0.05);
+background:linear-gradient(90deg,#8A2BE2,#B84DFF,#00E5FF,#B84DFF,#8A2BE2);
+background-size:400% 100%;
+z-index:-1;
+animation:borderRun 4s linear infinite;
+}
+@keyframes borderRun {
+0% { background-position:0% 50%; }
+100% { background-position:400% 50%; }
+}
+.logo-wrapper::after {
+content:'';
+position:absolute;
+inset:0;
+border-radius:28px;
+box-shadow:0 0 60px rgba(138,43,226,0.4), inset 0 0 80px rgba(138,43,226,0.1);
+animation:logoGlowPulse 3s ease-in-out infinite;
+}
+@keyframes logoGlowPulse {
+0%,100% { box-shadow:0 0 60px rgba(138,43,226,0.4), inset 0 0 80px rgba(138,43,226,0.1); }
+50% { box-shadow:0 0 100px rgba(184,77,255,0.6), inset 0 0 120px rgba(0,229,255,0.05); }
+}
+.logo {
+width:100%;
+display:block;
+border-radius:28px;
+border:3px solid rgba(138,43,226,0.6);
+position:relative;
+z-index:1;
+}
+
+/* ===== GLASS CARD COMMON ===== */
+.glass-card {
+background:rgba(9,0,24,0.88);
+backdrop-filter:blur(16px) saturate(1.2);
+-webkit-backdrop-filter:blur(16px) saturate(1.2);
+border:1.5px solid rgba(138,43,226,0.3);
+border-radius:28px;
+padding:30px 26px;
+box-shadow:0 0 50px rgba(138,43,226,0.08), inset 0 0 80px rgba(138,43,226,0.03);
 transition:all 0.5s cubic-bezier(0.22,1,0.36,1);
+animation:cardEnter 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
+opacity:0;
+transform:translateY(20px);
+}
+@keyframes cardEnter {
+to { opacity:1; transform:translateY(0); }
+}
+.glass-card:hover {
+border-color:rgba(184,77,255,0.5);
+box-shadow:0 0 70px rgba(138,43,226,0.15), inset 0 0 80px rgba(138,43,226,0.05);
 }
 
-.panel,
-.form-page,
-.processing-page,
-.result-page{
-display:none;
-margin-top:25px;
+/* ===== STATUS BAR ===== */
+.status-bar {
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:22px;
+justify-content:center;
+}
+.status-item {
+display:flex;
+align-items:center;
+gap:8px;
+font-size:11px;
+font-family:'Orbitron',sans-serif;
+letter-spacing:1px;
+text-transform:uppercase;
+color:#9999bb;
+padding:6px 14px;
+background:rgba(138,43,226,0.08);
+border:1px solid rgba(138,43,226,0.15);
+border-radius:30px;
+}
+.status-dot {
+width:8px;height:8px;
+border-radius:50%;
+display:inline-block;
+animation:dotPulse 2s ease-in-out infinite;
+}
+.status-dot.green { background:#00FF88; box-shadow:0 0 10px #00FF8860; }
+.status-dot.purple { background:#B84DFF; box-shadow:0 0 10px #B84DFF60; }
+.status-dot.cyan { background:#00E5FF; box-shadow:0 0 10px #00E5FF60; }
+@keyframes dotPulse {
+0%,100% { opacity:1; transform:scale(1); }
+50% { opacity:0.6; transform:scale(0.85); }
 }
 
-.login-box:hover,
-.panel:hover,
-.form-page:hover{
-border-color:rgba(194,107,255,0.7);
-box-shadow:0 0 60px rgba(138,43,226,0.25),inset 0 0 60px rgba(138,43,226,0.08);
-}
-
-.login-box h1,
-.panel h2,
-.form-page h2,
-.processing-page h2,
-.result-page h2{
+/* ===== SECTION TITLES ===== */
+.section-title {
 text-align:center;
 color:#d58cff;
-margin-bottom:25px;
-font-size:26px;
-letter-spacing:2px;
-text-transform:uppercase;
-text-shadow:0 0 20px rgba(194,107,255,0.3);
+margin-bottom:20px;
+font-size:22px;
+letter-spacing:3px;
+text-shadow:0 0 30px rgba(184,77,255,0.2);
 }
-
-/* Access key input */
-.input-box,
-select,
-textarea{
+.section-sub {
+text-align:center;
+color:#9999bb;
+font-size:13px;
+margin-bottom:25px;
+letter-spacing:/* ===== INPUTS ===== */
+.input-group {
+position:relative;
+margin-bottom:22px;
+}
+.input-group label {
+display:block;
+margin-bottom:8px;
+color:#c26bff;
+font-size:13px;
+font-family:'Orbitron',sans-serif;
+letter-spacing:1.5px;
+text-transform:uppercase;
+}
+.input-box, .input-group input, select, textarea {
 width:100%;
 padding:18px 20px;
-background:rgba(0,0,0,0.7);
-border:2px solid rgba(138,43,226,0.4);
-border-radius:20px;
+background:rgba(0,0,0,0.6);
+border:1.5px solid rgba(138,43,226,0.3);
+border-radius:18px;
 color:#e0e0ff;
-font-size:18px;
+font-size:16px;
+font-family:'Share Tech Mono',monospace;
 outline:none;
-margin-bottom:20px;
-transition:all 0.3s ease;
-font-family:'Courier New',monospace;
+transition:all 0.35s ease;
 letter-spacing:1px;
 }
-
-.input-box:focus,
-select:focus,
-textarea:focus{
-border-color:#c26bff;
-box-shadow:0 0 25px rgba(194,107,255,0.2),inset 0 0 20px rgba(194,107,255,0.05);
-background:rgba(10,0,30,0.9);
+.input-box:focus, .input-group input:focus, select:focus, textarea:focus {
+border-color:#B84DFF;
+box-shadow:0 0 30px rgba(184,77,255,0.15), inset 0 0 25px rgba(138,43,226,0.05);
+background:rgba(8,0,25,0.9);
 }
-
-textarea{
+.input-box::placeholder, .input-group input::placeholder {
+color:#555577;
+font-family:'Share Tech Mono',monospace;
+}
+textarea {
 height:120px;
 resize:none;
 }
+select {
+appearance:none;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath fill='%23B84DFF' d='M1 1l6 6 6-6'/%3E%3C/svg%3E");
+background-repeat:no-repeat;
+background-position:right 20px center;
+padding-right:50px;
+}
 
-/* Premium gradient buttons */
-.login-btn,
-.action-btn{
+/* ===== BUTTONS ===== */
+.btn {
 position:relative;
 width:100%;
-padding:18px;
+padding:18px 24px;
 border:none;
 border-radius:20px;
-background:linear-gradient(135deg,#7b2dbe,#c26bff,#a855f7);
+background:linear-gradient(135deg,#7b2dbe,#B84DFF,#a855f7);
 background-size:200% 200%;
-color:white;
-font-size:22px;
-font-weight:bold;
+color:#ffffff;
+font-size:18px;
+font-weight:600;
+font-family:'Orbitron',sans-serif;
 cursor:pointer;
-box-shadow:0 0 30px rgba(138,43,226,0.3);
-transition:all 0.4s ease;
-text-transform:uppercase;
 letter-spacing:3px;
+text-transform:uppercase;
+box-shadow:0 0 35px rgba(138,43,226,0.25);
+transition:all 0.45s ease;
 overflow:hidden;
 }
-
-.login-btn:hover,
-.action-btn:hover{
+.btn:hover {
 background-position:100% 100%;
-box-shadow:0 0 50px rgba(194,107,255,0.5),0 0 100px rgba(138,43,226,0.2);
-transform:translateY(-2px);
+box-shadow:0 0 60px rgba(184,77,255,0.45), 0 0 120px rgba(138,43,226,0.15);
+transform:translateY(-3px) scale(1.01);
 }
-
-.login-btn:active,
-.action-btn:active{
-transform:translateY(1px);
+.btn:active {
+transform:translateY(1px) scale(0.98);
 }
-
-/* Button shimmer overlay */
-.login-btn::after,
-.action-btn::after{
+.btn::after {
 content:'';
 position:absolute;
-top:-50%;left:-50%;
-width:200%;height:200%;
-background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.1) 50%,transparent 70%);
-animation:shimmer 3s ease-in-out infinite;
+top:-60%;left:-60%;
+width:220%;height:220%;
+background:linear-gradient(45deg,transparent 25%,rgba(255,255,255,0.06) 45%,transparent 65%);
+animation:btnShimmer 4s ease-in-out infinite;
 }
-
-@keyframes shimmer{
-0%{transform:translateX(-100%) rotate(25deg);}
-100%{transform:translateX(100%) rotate(25deg);}
-}.owner{
-margin-top:30px;
-text-align:center;
-font-size:20px;
-color:#c0c0e0;
-letter-spacing:2px;
-text-transform:uppercase;
+@keyframes btnShimmer {
+0% { transform:translateX(-100%) rotate(25deg); }
+100% { transform:translateX(100%) rotate(25deg); }
 }
-
-.owner-number{
-margin-top:10px;
-font-size:32px;
-font-weight:bold;
-color:#d58cff;
-text-shadow:0 0 30px rgba(194,107,255,0.3);
-letter-spacing:3px;
+.btn-secondary {
+background:linear-gradient(135deg,#1a0033,#3a1a5a);
+box-shadow:0 0 20px rgba(138,43,226,0.1);
 }
-
-.owner-text{
-margin-top:15px;
-color:#9999bb;
-font-size:16px;
-letter-spacing:1px;
+.btn-secondary:hover {
+background:linear-gradient(135deg,#2d0055,#5a2d8a);
+box-shadow:0 0 40px rgba(138,43,226,0.25);
 }
-
-.buy-btn{
-margin-top:25px;
+.btn-buy {
 background:linear-gradient(135deg,#2d1b4e,#6b3fa0);
 }
+.btn-success {
+background:linear-gradient(135deg,#075e54,#25d366);
+box-shadow:0 0 30px rgba(37,211,102,0.2);
+}
+.btn-success:hover {
+box-shadow:0 0 60px rgba(37,211,102,0.4);
+}
 
-/* Processing lines */
-.process{
-background:rgba(18,0,36,0.7);
-border:1px solid rgba(138,43,226,0.25);
+/* Ripple effect container */
+.ripple-container {
+position:relative;
+overflow:hidden;
+}
+.ripple-effect {
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,0.15);
+transform:scale(0);
+animation:rippleAnim 0.6s ease-out;
+pointer-events:none;
+}
+@keyframes rippleAnim {
+to { transform:scale(4); opacity:0; }
+}/* ===== OWNER SECTION ===== */
+.owner-section {
+margin-top:28px;
+text-align:center;
+padding:20px;
+border-radius:18px;
+background:rgba(138,43,226,0.04);
+border:1px solid rgba(138,43,226,0.12);
+}
+.owner-label {
+font-size:13px;
+font-family:'Orbitron',sans-serif;
+color:#9999bb;
+letter-spacing:2px;
+text-transform:uppercase;
+margin-bottom:8px;
+}
+.owner-number {
+font-size:30px;
+font-weight:700;
+color:#d58cff;
+text-shadow:0 0 40px rgba(184,77,255,0.25);
+letter-spacing:3px;
+font-family:'Share Tech Mono',monospace;
+}
+.owner-note {
+margin-top:10px;
+color:#7777aa;
+font-size:14px;
+}
+.owner-divider {
+width:60px;height:2px;
+background:linear-gradient(90deg,transparent,#8A2BE2,transparent);
+margin:15px auto;
+}
+
+/* ===== PROCESS LINES ===== */
+.process {
+background:rgba(18,0,36,0.6);
+border:1px solid rgba(138,43,226,0.15);
 border-radius:12px;
 padding:14px 18px;
-margin-bottom:12px;
+margin-bottom:10px;
 color:#b0b0dd;
-font-family:'Courier New',monospace;
-font-size:15px;
+font-family:'Share Tech Mono',monospace;
+font-size:14px;
 letter-spacing:1px;
-border-left:3px solid #8a2be2;
-transition:all 0.3s ease;
+border-left:3px solid #8A2BE2;
+transition:all 0.4s ease;
 display:flex;
 align-items:center;
 gap:12px;
+animation:stepFadeIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+opacity:0;
+transform:translateX(-15px);
 }
-
-.process::before{
-content:'►';
-color:#c26bff;
+@keyframes stepFadeIn {
+to { opacity:1; transform:translateX(0); }
+}
+.process .step-icon {
+color:#B84DFF;
 font-size:12px;
-animation:blinkDot 1s step-end infinite;
+flex-shrink:0;
+}
+.process .step-badge {
+margin-left:auto;
+padding:2px 14px;
+border-radius:20px;
+font-size:10px;
+font-family:'Orbitron',sans-serif;
+letter-spacing:1px;
+flex-shrink:0;
+}
+.badge-proc {
+background:rgba(255,193,7,0.12);
+color:#ffc107;
+border:1px solid rgba(255,193,7,0.2);
+}
+.badge-done {
+background:rgba(0,255,136,0.12);
+color:#00FF88;
+border:1px solid rgba(0,255,136,0.2);
 }
 
-@keyframes blinkDot{
-0%,100%{opacity:1;}
-50%{opacity:0;}
+/* ===== PROGRESS BAR ===== */
+.progress-container {
+margin-bottom:20px;
+}
+.progress-header {
+display:flex;
+justify-content:space-between;
+font-family:'Orbitron',sans-serif;
+font-size:12px;
+color:#9999bb;
+letter-spacing:1px;
+margin-bottom:8px;
+}
+.progress-track {
+width:100%;
+height:6px;
+background:rgba(138,43,226,0.12);
+border-radius:3px;
+overflow:hidden;
+}
+.progress-fill {
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#8A2BE2,#B84DFF,#00E5FF);
+background-size:200% 100%;
+border-radius:3px;
+transition:width 0.5s ease;
+animation:progressGlow 2s ease-in-out infinite;
+}
+@keyframes progressGlow {
+0%,100% { background-position:0% 50%; }
+50% { background-position:100% 50%; }
 }
 
-.success{
-color:#00ff99;
-font-weight:bold;
-font-size:24px;
+/* ===== RESULT ===== */
+.result-card .process {
+background:rgba(0,30,15,0.3);
+border-color:rgba(0,255,136,0.15);
+border-left-color:#00FF88;
+}
+.result-card .process .step-icon {
+color:#00FF88;
+}
+.success-badge {
 text-align:center;
 margin-top:25px;
-text-shadow:0 0 40px rgba(0,255,153,0.4);
+padding:20px;
+border-radius:18px;
+background:rgba(0,255,136,0.06);
+border:1px solid rgba(0,255,136,0.2);
+}
+.success-badge .check-icon {
+display:inline-block;
+width:60px;height:60px;
+border-radius:50%;
+background:linear-gradient(135deg,#00FF8840,#00FF8820);
+border:2px solid #00FF88;
+line-height:56px;
+font-size:30px;
+color:#00FF88;
+margin-bottom:12px;
+box-shadow:0 0 50px rgba(0,255,136,0.2);
+animation:checkPulse 2s ease-in-out infinite;
+}
+@keyframes checkPulse {
+0%,100% { box-shadow:0 0 50px rgba(0,255,136,0.2); }
+50% { box-shadow:0 0 80px rgba(0,255,136,0.4); }
+}
+.success-badge .success-text {
+font-family:'Orbitron',sans-serif;
+font-size:22px;
+color:#00FF88;
 letter-spacing:3px;
-animation:successPulse 2s ease-in-out infinite;
-}
-
-@keyframes successPulse{
-0%,100%{text-shadow:0 0 40px rgba(0,255,153,0.4);}
-50%{text-shadow:0 0 80px rgba(0,255,153,0.8),0 0 120px rgba(0,255,153,0.2);}
-}
-
-label{
-display:block;
-margin-bottom:10px;
-color:#d58cff;
-font-size:18px;
-letter-spacing:1px;
-text-transform:uppercase;
-}
-
-/* Result page special styling */
-#resultText .process{
-background:rgba(0,20,10,0.5);
-border-color:rgba(0,255,153,0.2);
-border-left-color:#00ff99;
-}
-
-#resultText .process::before{
-content:'✓';
-color:#00ff99;
-animation:none;
-}/* BUY PAGE */
-.buy-page{
+text-shadow:0 0 40px rgba(/* ===== BUY PAGE ===== */
+.buy-overlay {
 position:fixed;
 top:0;left:0;
-width:100%;
-height:100%;
-background:rgba(5,0,16,0.95);
-backdrop-filter:blur(20px);
--webkit-backdrop-filter:blur(20px);
+width:100%;height:100%;
+background:rgba(4,1,10,0.92);
+backdrop-filter:blur(24px);
+-webkit-backdrop-filter:blur(24px);
 display:none;
 justify-content:center;
 align-items:center;
 z-index:9999;
 overflow:auto;
 padding:20px;
-animation:fadeBuyIn 0.4s ease;
+animation:overlayEnter 0.5s cubic-bezier(0.22,1,0.36,1);
 }
-
-@keyframes fadeBuyIn{
-from{opacity:0;transform:scale(0.95) translateY(20px);}
-to{opacity:1;transform:scale(1) translateY(0);}
+@keyframes overlayEnter {
+from { opacity:0; transform:scale(0.96) translateY(20px); }
+to { opacity:1; transform:scale(1) translateY(0); }
 }
-
-.buy-container{
+.buy-card {
 width:100%;
 max-width:440px;
 background:rgba(9,0,24,0.95);
-border:2px solid rgba(138,43,226,0.5);
+border:1.5px solid rgba(138,43,226,0.35);
 border-radius:30px;
-padding:30px 25px;
-box-shadow:0 0 80px rgba(138,43,226,0.2),inset 0 0 60px rgba(138,43,226,0.03);
+padding:30px 24px;
+box-shadow:0 0 80px rgba(138,43,226,0.12);
 }
-
-.buy-container h1{
+.buy-card h1 {
 text-align:center;
 color:#d58cff;
-margin-bottom:30px;
-font-size:28px;
+margin-bottom:28px;
+font-size:26px;
 letter-spacing:3px;
-text-transform:uppercase;
-text-shadow:0 0 30px rgba(194,107,255,0.3);
+text-shadow:0 0 30px rgba(184,77,255,0.2);
 }
-
-.price-box{
-margin-top:25px;
-padding:30px;
+.price-display {
+margin-top:20px;
+padding:28px;
 border-radius:20px;
-background:rgba(18,0,36,0.6);
-border:1px solid rgba(138,43,226,0.3);
+background:rgba(18,0,36,0.5);
+border:1px solid rgba(138,43,226,0.2);
 text-align:center;
 transition:all 0.5s ease;
 }
-
-.price-box:hover{
-border-color:#c26bff;
-box-shadow:0 0 40px rgba(194,107,255,0.15);
+.price-display:hover {
+border-color:#B84DFF;
+box-shadow:0 0 50px rgba(184,77,255,0.08);
 }
-
-.price-box h2{
+.price-amount {
 font-size:48px;
+font-weight:700;
+font-family:'Orbitron',sans-serif;
 color:#d58cff;
-text-shadow:0 0 40px rgba(194,107,255,0.3);
-letter-spacing:3px;
+text-shadow:0 0 50px rgba(184,77,255,0.2);
+letter-spacing:4px;
 }
-
-.payment-box{
-margin-top:25px;
-padding:25px;
+.payment-block {
+margin-top:22px;
+padding:24px;
 border-radius:20px;
-background:rgba(18,0,36,0.6);
-border:1px solid rgba(138,43,226,0.3);
+background:rgba(18,0,36,0.5);
+border:1px solid rgba(138,43,226,0.2);
 text-align:center;
 }
-
-.pay-btn{
-display:block;
-width:100%;
-text-decoration:none;
-padding:18px;
-border-radius:18px;
-background:linear-gradient(135deg,#7b2dbe,#c26bff);
-color:white;
-font-size:22px;
-font-weight:bold;
-box-shadow:0 0 30px rgba(138,43,226,0.3);
-transition:all 0.4s ease;
+.payment-block h3 {
+font-family:'Orbitron',sans-serif;
+font-size:16px;
+color:#c26bff;
 letter-spacing:2px;
-text-transform:uppercase;
+margin-bottom:16px;
 }
-
-.pay-btn:hover{
-box-shadow:0 0 50px rgba(194,107,255,0.5);
-transform:translateY(-2px);
+.payment-number {
+margin-top:14px;
+font-size:26px;
+font-weight:700;
+color:#d58cff;
+font-family:'Share Tech Mono',monospace;
+letter-spacing:2px;
 }
-
-.mini-number{
-margin-top:20px;
+.after-pay-block {
+margin-top:22px;
+padding:24px;
+border-radius:20px;
+background:rgba(18,0,36,0.5);
+border:1px solid rgba(138,43,226,0.2);
+text-align:center;
+}
+.after-pay-block p {
 color:#9999bb;
-font-size:18px;
-letter-spacing:1px;
+margin:12px 0 18px;
+font-size:15px;
 }
-
-.after-payment{
-margin-top:25px;
-padding:25px;
-border-radius:20px;
-background:rgba(18,0,36,0.6);
-border:1px solid rgba(138,43,226,0.3);
-text-align:center;
-}
-
-.whatsapp-btn{
-display:block;
-text-decoration:none;
+.close-btn {
+margin-top:22px;
 width:100%;
-padding:18px;
-border-radius:18px;
-background:linear-gradient(135deg,#075e54,#25d366);
-color:white;
-font-size:22px;
-font-weight:bold;
-box-shadow:0 0 30px rgba(37,211,102,0.3);
-transition:all 0.4s ease;
-letter-spacing:2px;
-}
-
-.whatsapp-btn:hover{
-box-shadow:0 0 50px rgba(37,211,102,0.5);
-transform:translateY(-2px);
-}
-
-.close-btn{
-margin-top:25px;
-width:100%;
-padding:18px;
+padding:16px;
 border:none;
 border-radius:18px;
-background:rgba(26,0,51,0.8);
-border:1px solid rgba(138,43,226,0.4);
-color:#c0c0e0;
-font-size:20px;
+background:rgba(26,0,51,0.7);
+border:1px solid rgba(138,43,226,0.25);
+color:#aaaacc;
+font-size:18px;
+font-family:'Orbitron',sans-serif;
 cursor:pointer;
-transition:all 0.3s ease;
 letter-spacing:2px;
+transition:all 0.35s ease;
 }
-
-.close-btn:hover{
-background:rgba(40,0,80,0.9);
-border-color:#c26bff;
+.close-btn:hover {
+background:rgba(40,0,80,0.8);
+border-color:#B84DFF;
 color:white;
 }
 
-/* Status badge for process steps */
-.status-badge{
-display:inline-block;
-padding:2px 12px;
-border-radius:20px;
-font-size:12px;
-font-weight:bold;
-letter-spacing:1px;
-margin-left:auto;
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px) {
+.container { padding:18px 14px 40px; }
+.glass-card { padding:22px 18px; border-radius:22px; }
+.section-title { font-size:18px; }
+.btn { padding:16px 20px; font-size:16px; }
+.owner-number { font-size:24px; }
+.price-amount { font-size:38px; }
+.buy-card { padding:22px 16px; }
+.status-item { font-size:9px; padding:4px 10px; }
+.logo-wrapper { margin-bottom:22px; }
 }
+@media(max-width:400px) {
+.glass-card { padding:18px 14px; }
+.input-box, select, textarea { padding:14px 16px; font-size:14px; }
+.btn { padding:14px 16px; font-size:14px; letter-spacing:2px; }
+.section-title { font-size:16px; }<!-- ===== MAIN PANEL ===== -->
+<div class="glass-card" id="panel" style="display:none;">
 
-.status-pending{
-background:rgba(255,193,7,0.15);
-color:#ffc107;
-border:1px solid rgba(255,193,7,0.3);
-}
+<div class="section-title">⦿ GUI VII BAN &amp; UNBAN</div>
 
-.status-done{
-background:rgba(0,255,153,0.15);
-color:#00ff99;
-border:1px solid rgba(0,255,153,0.3);
-}</style>
-</head>
-
-<body>
-
-<!-- Matrix Rain Canvas -->
-<canvas id="matrix-canvas"></canvas>
-
-<!-- Scanline overlay -->
-<div id="scanlines"></div>
-
-<div class="container">
-
-<div class="logo-wrapper">
-<img src="https://i.imgur.com/2dhG7vM.jpeg" class="logo">
+<!-- Status bar -->
+<div class="status-bar">
+<div class="status-item"><span class="status-dot green"></span> SYSTEM OK</div>
+<div class="status-item"><span class="status-dot purple"></span> CLOUD SYNC</div>
+<div class="status-item"><span class="status-dot cyan"></span> SECURE</div>
+<div class="status-item" id="liveClock">00:00:00</div>
 </div>
-
-<div class="login-box" id="loginBox">
-
-<h1>⦿ ACCESS KEY LOGIN</h1>
-
-<input type="text" id="accessKey" class="input-box" placeholder="Enter Access Key">
-
-<button class="login-btn" onclick="login()">
-⟐ LOGIN
-</button>
-
-<div class="owner">
-⏤ Owner Contact ⏤
-</div>
-
-<div class="owner-number">
-+58 416-9768887
-</div>
-
-<div class="owner-text">
-Contact owner for access key
-</div>
-
-<button class="login-btn buy-btn" onclick="openBuyPage()">
-⤲ BUY ACCESS KEY
-</button>
-
-</div>
-
-<div class="panel" id="panel">
-
-<h2>⦿ GUI VII BAN &amp; UNBAN PANEL</h2>
 
 <div class="process">Loading Phone Cloud...</div>
 <div class="process">Connecting Secure Server...</div>
 <div class="process">Decrypting Encrypted Data...</div>
 <div class="process">Syncing Ban Database...</div>
 
-<button class="action-btn" onclick="openForm('ban')">
-⛔ BAN ACCOUNT
-</button>
+<div style="height:16px;"></div>
 
-<button class="action-btn" onclick="openForm('unban')">
-↻ UNBAN ACCOUNT
-</button>
+<button class="btn" onclick="openForm('ban')">⛔ BAN ACCOUNT</button>
+
+<div style="height:14px;"></div>
+
+<button class="btn btn-secondary" onclick="openForm('unban')">↻ UNBAN ACCOUNT</button>
 
 </div>
 
-<div class="form-page" id="formPage">
+<!-- ===== FORM PAGE ===== -->
+<div class="glass-card" id="formPage" style="display:none;">
 
-<h2 id="formTitle">⛔ BAN ACCOUNT</h2>
+<div class="section-title" id="formTitle">⛔ BAN ACCOUNT</div>
 
-<label>📱 Enter Number</label>
-
+<div class="input-group">
+<label>📱 TARGET NUMBER</label>
 <input type="text" id="number" class="input-box" placeholder="+234xxxxxxxxxx">
+</div>
 
-<label id="modeText">⚙ Ban Mode</label>
-
+<div class="input-group">
+<label id="modeText">⚙ BAN MODE</label>
 <select id="mode">
 <option>Temporary Ban</option>
 <option>Permanent Ban</option>
 <option>Spam Restriction</option>
 <option>Business Ban</option>
 </select>
+</div>
 
-<label>📝 Reason</label>
-
+<div class="input-group">
+<label>📝 REASON</label>
 <textarea id="reason" placeholder="Enter reason..."></textarea>
+</div>
 
-<button class="action-btn" onclick="startProcess()">
-▶ START PROCESS
-</button>
+<button class="btn" onclick="startProcess()">▶ START PROCESS</button>
 
-<button class="action-btn" onclick="goBack()" style="background:linear-gradient(135deg,#1a0033,#3a1a5a);">
-◀ BACK
-</button>
+<div style="height:14px;"></div>
 
-</div><div class="processing-page" id="processingPage">
-
-<h2>⦿ PROCESSING...</h2>
-
-<div id="processArea"></div>
+<button class="btn btn-secondary" onclick="goBack()">◀ BACK</button>
 
 </div>
 
-<div class="result-page" id="resultPage">
+<!-- ===== PROCESSING PAGE ===== -->
+<div class="glass-card" id="processingPage" style="display:none;">
 
-<h2>⦿ RESULT</h2>
+<div class="section-title">⦿ PROCESSING</div>
+
+<!-- Progress bar -->
+<div class="progress-container">
+<div class="progress-header">
+<span>STATUS</span>
+<span id="progressPercent">0%</span>
+</div>
+<div class="progress-track">
+<div class="progress-fill" id="progressBar"></div>
+</div>
+</div>
+
+<!-- Terminal area -->
+<div id="processArea"></div>
+
+</div><!-- ===== RESULT PAGE ===== -->
+<div class="glass-card result-card" id="resultPage" style="display:none;">
+
+<div class="section-title">⦿ RESULT</div>
 
 <div id="resultText"></div>
 
-<button class="action-btn" onclick="resetAll()">
-✓ DONE
-</button>
+<div style="height:18px;"></div>
+
+<button class="btn btn-success" onclick="resetAll()">✓ DONE</button>
 
 </div>
 
-</div>
+</div><!-- end container -->
 
-<!-- BUY PAGE -->
+<!-- ===== BUY PAGE OVERLAY ===== -->
+<div class="buy-overlay" id="buyPage">
 
-<div id="buyPage" class="buy-page">
-
-<div class="buy-container">
+<div class="buy-card">
 
 <h1>⦿ ACCESS KEY SHOP</h1>
 
-<label>Select Access Key Type</label>
-
+<div class="input-group">
+<label>SELECT ACCESS KEY TYPE</label>
 <select id="keyType" onchange="updatePrice()">
-<option value="">-- Choose Access Key --</option>
+<option value="">— Choose Access Key —</option>
 <option value="Lifetime">Lifetime Access</option>
 <option value="Monthly">Monthly Access</option>
 <option value="Weekly">Weekly Access</option>
 </select>
-
-<div class="price-box">
-<h2 id="priceTag">$0</h2>
 </div>
 
-<div class="payment-box">
+<div class="price-display">
+<div class="price-amount" id="priceTag">$0</div>
+</div>
+
+<div class="payment-block">
 <h3>⟡ MiniPay Payment</h3>
-<a href="https://minipay.app/send?phone=%2B584169768887" target="_blank" class="pay-btn">
+<a href="https://minipay.app/send?phone=%2B584169768887" target="_blank" class="btn" style="text-decoration:none;display:block;text-align:center;">
 PAY NOW WITH MINIPAY
 </a>
-<div class="mini-number">MiniPay Number</div>
-<h2>+58 416-9768887</h2>
+<div style="margin-top:16px;color:#9999bb;font-size:14px;letter-spacing:1px;">MiniPay Number</div>
+<div class="payment-number">+58 416-9768887</div>
 </div>
 
-<div class="after-payment">
-<h3>After Payment</h3>
+<div class="after-pay-block">
+<h3 style="font-family:'Orbitron',sans-serif;font-size:16px;color:#c26bff;letter-spacing:2px;">After Payment</h3>
 <p>Send payment screenshot or transaction details to owner</p>
-<a href="https://wa.me/584169768887" target="_blank" class="whatsapp-btn">
+<a href="https://wa.me/584169768887" target="_blank" class="btn btn-success" style="text-decoration:none;display:block;text-align:center;">
 CONTACT OWNER
 </a>
 </div>
 
-<button onclick="closeBuyPage()" class="close-btn">
-BACK
-</button>
+<button class="close-btn" onclick="closeBuyPage()">BACK</button>
 
 </div>
 
 </div><script>
-// ========== PRESERVED ORIGINAL LOGIC ==========
-
-const validKey = "GUI-VII-9961";
+// ===== CONFIG =====
+const VALID_KEY = "GUI-VII-9961";
 let currentAction = "BAN";
 
-function login(){
-let key = document.getElementById("accessKey").value;
-if(key === "RYAN-2026"){
-alert("LIMIT EXCEEDED CONTACT OWNER FOR NEW KEY");
+// ===== MATRIX RAIN =====
+(function initMatrix() {
+const canvas = document.getElementById('matrix-canvas');
+const ctx = canvas.getContext('2d');
+let w, h, cols, drops;
+const chars = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEF";
+const fontSize = 13;
+
+function resize() {
+w = canvas.width = window.innerWidth;
+h = canvas.height = window.innerHeight;
+cols = Math.floor(w / fontSize);
+drops = Array(cols).fill(1);
+}
+resize();
+window.addEventListener('resize', resize);
+
+function draw() {
+ctx.fillStyle = 'rgba(4,1,10,0.06)';
+ctx.fillRect(0,0,w,h);
+for(let i=0; i<drops.length; i++) {
+const char = chars[Math.floor(Math.random()*chars.length)];
+ctx.fillStyle = Math.random() > 0.92 ? '#B84DFF' : '#8A2BE2';
+ctx.font = fontSize + 'px monospace';
+ctx.fillText(char, i*fontSize, drops[i]*fontSize);
+if(drops[i]*fontSize > h && Math.random() > 0.975) drops[i]=0;
+drops[i]++;
+}
+requestAnimationFrame(draw);
+}
+draw();
+})();
+
+// ===== PARTICLES =====
+(function initParticles() {
+const canvas = document.getElementById('particles-container');
+const ctx = canvas.getContext('2d');
+let w, h, particles = [];
+
+function resize() {
+w = canvas.width = window.innerWidth;
+h = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+for(let i=0; i<50; i++) {
+particles.push({
+x: Math.random()*w,
+y: Math.random()*h,
+vx: (Math.random()-0.5)*0.4,
+vy: (Math.random()-0.5)*0.4,
+r: Math.random()*2+1,
+a: Math.random()*0.4+0.1
+});
+}
+
+function draw() {
+ctx.clearRect(0,0,w,h);
+for(let p of particles) {
+ctx.beginPath();
+ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+ctx.fillStyle = `rgba(138,43,226,${p.a})`;
+ctx.fill();
+p.x += p.vx;
+p.y += p.vy;
+if(p.x<0) p.x=w;
+if(p.x>w) p.x=0;
+if(p.y<0) p.y=h;
+if(p.y>h) p.y=0;
+}
+requestAnimationFrame(draw);
+}
+draw();
+})();
+
+// ===== LIVE CLOCK =====
+function updateClock() {
+const el = document.getElementById('liveClock');
+if(!el) return;
+const now = new Date();
+const hh = String(now.getHours()).padStart(2,'0');
+const mm = String(now.getMinutes()).padStart(2,'0');
+const ss = String(now.getSeconds()).padStart(2,'0');
+el.textContent = hh+':'+mm+':'+ss;
+requestAnimationFrame(updateClock);
+}
+setTimeout(() => requestAnimationFrame(updateClock), 100);
+
+// ===== LOGIN =====
+function login() {
+const key = document.getElementById('accessKey').value.trim();
+if(key === 'RYAN-2026') {
+alert('LIMIT EXCEEDED CONTACT OWNER FOR NEW KEY');
 return;
 }
-if(key === validKey){
-alert("ACCESS GRANTED");
-document.getElementById("loginBox").style.display = "none";
-document.getElementById("panel").style.display = "block";
+if(key === VALID_KEY) {
+alert('ACCESS GRANTED');
+document.getElementById('loginBox').style.display = 'none';
+document.getElementById('panel').style.display = 'block';
+document.getElementById('panel').style.animation = 'none';
+void document.getElementById('panel').offsetHeight;
+document.getElementById('panel').style.animation = 'cardEnter 0.8s cubic-bezier(0.22,1,0.36,1) forwards';
 } else {
-alert("INVALID ACCESS KEY");
+alert('INVALID ACCESS KEY');
 }
 }
 
-function openBuyPage(){
-document.getElementById("buyPage").style.display = "flex";
+// ===== BUY PAGE =====
+function openBuyPage() {
+document.getElementById('buyPage').style.display = 'flex';
+}
+function closeBuyPage() {
+document.getElementById('buyPage').style.display = 'none';
+}
+function updatePrice() {
+const type = document.getElementById('keyType').value;
+const tag = document.getElementById('priceTag');
+if(type === 'Lifetime') tag.textContent = '$60';
+else if(type === 'Monthly') tag.textContent = '$20';
+else if(type === 'Weekly') tag.textContent = '$5';
+else tag.textContent = '$0';
 }
 
-function closeBuyPage(){
-document.getElementById("buyPage").style.display = "none";
-}
-
-function updatePrice(){
-let type = document.getElementById("keyType").value;
-let price = document.getElementById("priceTag");
-if(type === "Lifetime"){ price.innerHTML = "$60"; }
-else if(type === "Monthly"){ price.innerHTML = "$20"; }
-else if(type === "Weekly"){ price.innerHTML = "$5"; }
-else { price.innerHTML = "$0"; }
-}
-
-function openForm(type){
+// ===== FORM NAVIGATION =====
+function openForm(type) {
 currentAction = type;
-document.getElementById("panel").style.display = "none";
-document.getElementById("formPage").style.display = "block";
-if(type === "ban"){
-document.getElementById("formTitle").innerHTML = "⛔ BAN ACCOUNT";
-document.getElementById("modeText").innerHTML = "⚙ Ban Mode";
+document.getElementById('panel').style.display = 'none';
+document.getElementById('formPage').style.display = 'block';
+document.getElementById('formPage').style.animation = 'none';
+void document.getElementById('formPage').offsetHeight;
+document.getElementById('formPage').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
+
+if(type === 'ban') {
+document.getElementById('formTitle').textContent = '⛔ BAN ACCOUNT';
+document.getElementById('modeText').textContent = '⚙ BAN MODE';
 } else {
-document.getElementById("formTitle").innerHTML = "↻ UNBAN ACCOUNT";
-document.getElementById("modeText").innerHTML = "⚙ Unban Mode";
+document.getElementById('formTitle').textContent = '↻ UNBAN ACCOUNT';
+document.getElementById('modeText').textContent = '⚙ UNBAN MODE';
 }
 }
 
-function goBack(){
-document.getElementById("formPage").style.display = "none";
-document.getElementById("panel").style.display = "block";
-}
-
-// ========== ENHANCED PROCESSING (PREMIUM ANIMATION) ==========
-
-const processes = [
-"Loading Phone Cloud...",
-"Connecting Secure Server...",
-"Decrypting Encrypted Data...",
-"Checking Device Status...",
-"Syncing Ban Database...",
-"Verifying Account Access...",
-"Bypassing Security Layers...",
-"Initializing System Kernel...",
-"Fetching UID Information...",
-"Connecting Relay Nodes...",
-"Reading Device Metadata...",
-"Scanning Target Account...",
-"Decrypting Cloud Packets...",
-"Generating Secure Tokens...",
-"Inspecting Spam Reports...",
-"Loading AI Moderation...",
-"Processing Account Logs...",
-"Validating Cloud Signature...",
-"Establishing Secure Tunnel...",
-"Writing Audit Records...",
-"Finalizing Moderation System...",
-"Operation Completed..."
+function goBack() {
+document.getElementById('formPage').style.display = 'none';
+document.getElementById('panel').style.display = 'block';
+document.getElementById('panel').style.animation = 'none';
+void document.getElementById('panel').offsetHeight;
+document.getElementById('panel').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
+}// ===== ENHANCED PROCESS STEPS =====
+const processSteps = [
+{ text:'Loading Phone Cloud...', badge:'PENDING' },
+{ text:'Connecting Secure Server...', badge:'ACTIVE' },
+{ text:'Decrypting Encrypted Data...', badge:'ENCRYPT' },
+{ text:'Checking Device Status...', badge:'VERIFY' },
+{ text:'Syncing Ban Database...', badge:'SYNC' },
+{ text:'Verifying Account Access...', badge:'VERIFY' },
+{ text:'Bypassing Security Layers...', badge:'BYPASS' },
+{ text:'Initializing System Kernel...', badge:'INIT' },
+{ text:'Fetching UID Information...', badge:'FETCH' },
+{ text:'Connecting Relay Nodes...', badge:'CONNECT' },
+{ text:'Reading Device Metadata...', badge:'READ' },
+{ text:'Scanning Target Account...', badge:'SCAN' },
+{ text:'Decrypting Cloud Packets...', badge:'DECRYPT' },
+{ text:'Generating Secure Tokens...', badge:'GENERATE' },
+{ text:'Inspecting Spam Reports...', badge:'INSPECT' },
+{ text:'Loading AI Moderation...', badge:'LOAD' },
+{ text:'Processing Account Logs...', badge:'PROCESS' },
+{ text:'Validating Cloud Signature...', badge:'VALIDATE' },
+{ text:'Establishing Secure Tunnel...', badge:'TUNNEL' },
+{ text:'Writing Audit Records...', badge:'WRITE' },
+{ text:'Finalizing Moderation System...', badge:'FINAL' },
+{ text:'Operation Completed...', badge:'DONE' }
 ];
 
-// Enhanced process status indicators
-const statusLabels = ["PENDING","ACTIVE","VERIFIED","ENCRYPTED","SYNCED","DECRYPTED","BYPASSED","INITIALIZED","FETCHED","CONNECTED","READ","SCANNED","DECRYPTED","GENERATED","INSPECTED","LOADED","PROCESSED","VALIDATED","TUNNELED","WRITTEN","FINALIZED","COMPLETED"];
+function startProcess() {
+document.getElementById('formPage').style.display = 'none';
+document.getElementById('processingPage').style.display = 'block';
+document.getElementById('processingPage').style.animation = 'none';
+void document.getElementById('processingPage').offsetHeight;
+document.getElementById('processingPage').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
 
-function startProcess(){
-document.getElementById("formPage").style.display = "none";
-document.getElementById("processingPage").style.display = "block";
-let area = document.getElementById("processArea");
-area.innerHTML = "";
+const area = document.getElementById('processArea');
+area.innerHTML = '';
 
-// Add a dynamic status bar at top
-area.innerHTML = `
-<div style="text-align:center;margin-bottom:20px;">
-<div style="font-size:14px;color:#9999bb;letter-spacing:2px;margin-bottom:10px;">PROGRESS</div>
-<div style="width:100%;height:6px;background:rgba(138,43,226,0.2);border-radius:3px;overflow:hidden;">
-<div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#8a2be2,#c26bff);border-radius:3px;transition:width 0.4s ease;"></div>
-</div>
-<div id="progressPercent" style="margin-top:8px;font-family:'Courier New',monospace;font-size:14px;color:#c26bff;">0%</div>
-</div>
-`;
+// Progress bar elements
+const bar = document.getElementById('progressBar');
+const pct = document.getElementById('progressPercent');
 
 let i = 0;
-let interval = setInterval(() => {
-if(i < processes.length){
-let percent = Math.round(((i + 1) / processes.length) * 100);
-let badge = i < processes.length - 1 ? '<span class="status-badge status-pending">● PROCESSING</span>' : '<span class="status-badge status-done">● COMPLETED</span>';
+const total = processSteps.length;
 
-area.innerHTML += `
-<div class="process" style="animation:fadeInStep 0.4s ease;">
-<span>${processes[i]}</span>
-${badge}
-</div>
+function addStep() {
+if(i >= total) {
+setTimeout(showResult, 600);
+return;
+}
+
+const step = processSteps[i];
+const percent = Math.round(((i + 1) / total) * 100);
+const isLast = (i === total - 1);
+const badgeClass = isLast ? 'badge-done' : 'badge-proc';
+const badgeText = isLast ? 'COMPLETED' : '● PROCESSING';
+const icon = isLast ? '✓' : '►';
+
+// Update progress
+if(bar) bar.style.width = percent + '%';
+if(pct) pct.textContent = percent + '%';
+
+// Create step element
+const el = document.createElement('div');
+el.className = 'process';
+el.style.animationDelay = '0s';
+el.innerHTML = `
+<span class="step-icon">${icon}</span>
+<span>${step.text}</span>
+<span class="step-badge ${badgeClass}">${badgeText}</span>
 `;
-
-// Update progress bar
-let bar = document.getElementById("progressBar");
-let pct = document.getElementById("progressPercent");
-if(bar) bar.style.width = percent + "%";
-if(pct) pct.innerHTML = percent + "%";
-
-// Scroll to bottom
+area.appendChild(el);
 area.scrollTop = area.scrollHeight;
 
 i++;
-} else {
-clearInterval(interval);
-setTimeout(showResult, 500);
-}
-}, 600);
+setTimeout(addStep, 450 + Math.random() * 250);
 }
 
-// Add fade-in keyframes dynamically
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
-@keyframes fadeInStep{
-from{opacity:0;transform:translateX(-20px);}
-to{opacity:1;transform:translateX(0);}
+addStep();
 }
+
+// ===== SHOW RESULT =====
+function showResult() {
+document.getElementById('processingPage').style.display = 'none';
+document.getElementById('resultPage').style.display = 'block';
+document.getElementById('resultPage').style.animation = 'none';
+void document.getElementById('resultPage').offsetHeight;
+document.getElementById('resultPage').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
+
+const number = document.getElementById('number').value || 'N/A';
+const mode = document.getElementById('mode').value || 'N/A';
+const reason = document.getElementById('reason').value || 'N/A';
+
+const now = new Date();
+const ts = now.toLocaleString();
+const sid = Math.random().toString(36).substring(2,10).toUpperCase();
+const server = 'SRV-' + String(Math.floor(Math.random()*999)+1).padStart(3,'0');
+
+document.getElementById('resultText').innerHTML = `
+<div class="process"><span class="step-icon">📱</span> <span>Number: ${number}</span></div>
+<div class="process"><span class="step-icon">⚙</span> <span>Mode: ${mode}</span></div>
+<div class="process"><span class="step-icon">📝</span> <span>Reason: ${reason}</span></div>
+<div class="process"><span class="step-icon">🆔</span> <span>Session ID: ${sid}</span></div>
+<div class="process"><span class="step-icon">⏱</span> <span>Time: ${ts}</span></div>
+<div class="process"><span class="step-icon">🖥</span> <span>Server: ${server}</span></div>
+<div class="process"><span class="step-icon">🔒</span> <span>Security: SECURE</span></div>
+<div class="process"><span class="step-icon">☁</span> <span>Cloud: SYNCHRONIZED</span></div>
+<div class="success-badge">
+<div class="check-icon">✓</div>
+<div class="success-text">${currentAction.toUpperCase()} SUCCESSFUL</div>
+</div>
 `;
-document.head.appendChild(styleSheet);
-
-function showResult(){
-document.getElementById("processingPage").style.display = "none";
-document.getElementById("resultPage").style.display = "block";
-let number = document.getElementById("number").value;
-let mode = document.getElementById("mode").value;
-let reason = document.getElementById("reason").value || "N/A";
-
-// Add a typing effect simulation
-document.getElementById("resultText").innerHTML = `
-<div class="process">Number: ${number}</div>
-<div class="process">Mode: ${mode}</div>
-<div class="process">Reason: ${reason}</div>
-<div class="process">Timestamp: ${new Date().toLocaleString()}</div>
-<div class="process">Session ID: ${Math.random().toString(36).substring(2,10).toUpperCase()}</div>
-<div class="success">${currentAction.toUpperCase()} SUCCESSFUL</div>
-`;
 }
 
-function resetAll(){
-document.getElementById("resultPage").style.display = "none";
-document.getElementById("panel").style.display = "block";
-document.getElementById("number").value = "";
-document.getElementById("reason").value = "";
+// ===== RESET =====
+function resetAll() {
+document.getElementById('resultPage').style.display = 'none';
+document.getElementById('panel').style.display = 'block';
+document.getElementById('panel').style.animation = 'none';
+void document.getElementById('panel').offsetHeight;
+document.getElementById('panel').style.animation = 'cardEnter 0.6s cubic-bezier(0.22,1,0.36,1) forwards';
+document.getElementById('number').value = '';
+document.getElementById('reason').value = '';
 }
 
-// ========== MATRIX RAIN BACKGROUND ==========
-
-const matrixCanvas = document.getElementById("matrix-canvas");
-const ctx = matrixCanvas.getContext("2d");
-
-function resizeMatrix(){
-matrixCanvas.width = window.innerWidth;
-matrixCanvas.height = window.innerHeight;
-}
-resizeMatrix();
-window.addEventListener("resize", resizeMatrix);
-
-const chars = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEF";
-const fontSize = 12;
-const columns = Math.floor(matrixCanvas.width / fontSize);
-const drops = Array(columns).fill(1);
-
-function drawMatrix(){
-ctx.fillStyle = "rgba(10,0,21,0.05)";
-ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-
-ctx.fillStyle = "#8a2be2";
-ctx.font = fontSize + "px monospace";
-
-for(let i = 0; i < drops.length; i++){
-const text = chars.charAt(Math.floor(Math.random() * chars.length));
-ctx.fillStyle = Math.random() > 0.95 ? "#c26bff" : "#7b2dbe";
-ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-if(drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975){
-drops[i] = 0;
-}
-drops[i]++;
+// ===== BUTTON RIPPLE (global) =====
+document.addEventListener('click', function(e) {
+const btn = e.target.closest('.btn');
+if(!btn) return;
+const rect = btn.getBoundingClientRect();
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+const ripple = document.createElement('span');
+ripple.className = 'ripple-effect';
+ripple.style.left = x + 'px';
+ripple.style.top = y + 'px';
+ripple.style.width = '20px';
+ripple.style.height = '20px';
+ripple.style.marginLeft = '-10px';
+ripple.style.marginTop = '-10px';
+btn.style.position = 'relative';
+btn.style.overflow = 'hidden';
+btn.appendChild(ripple);
+setTimeout(() => ripple.remove(), // ===== KEYBOARD ENTER SUPPORT =====
+document.addEventListener('keydown', function(e) {
+if(e.key === 'Enter') {
+const loginBox = document.getElementById('loginBox');
+const formPage = document.getElementById('formPage');
+if(loginBox && loginBox.style.display !== 'none') {
+login();
+} else if(formPage && formPage.style.display !== 'none') {
+startProcess();
 }
 }
+});
 
-setInterval(drawMatrix, 50);
+// ===== INITIAL FADE-IN FOR LOGIN =====
+window.addEventListener('load', function() {
+document.getElementById('loginBox').style.opacity = '1';
+});
 
+console.log('%c GUI VII BAN & UNBAN v4.0 — PREMIUM ',
+'background:#04010A; color:#B84DFF; font-size:20px; font-weight:bold; padding:10px 20px; border:2px solid #8A2BE2; border-radius:10px;');
+console.log('%c Authorized Security Terminal ', 'color:#00FF88; font-size:14px;');
 </script>
 
 </body>
 </html>
+```*
