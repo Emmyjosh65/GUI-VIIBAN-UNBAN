@@ -1,6 +1,6 @@
-# GUI-VII BAN AND UNBAN
+# codex-DANNY band&unban
 
-GUI-VII BAN AND UNBAN is a web platform designed to help users create ban appeal and unban request letters for suspended or banned accounts.
+codex-DANNY band&unban is a web platform designed to help users create ban appeal and unban request letters for suspended or banned accounts.
 
 The website provides an easy-to-use interface where users can generate professional appeal messages for account recovery.
 
@@ -13,6 +13,7 @@ The website provides an easy-to-use interface where users can generate professio
 - Simple and mobile-friendly UI
 - Fast and easy to use
 - Ready-to-copy appeal messages
+- Secure payment integration with Paystack
 
 ---
 
@@ -37,4 +38,19 @@ This project was created to assist users whose accounts have been restricted or 
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/GUI-VII.git
+git clone https://github.com/yourusername/codex-DANNY-band-unban.git
+```
+
+---
+
+## Owner Contact
+
+**Owner:** Daniel Endurance Godwin  
+**WhatsApp:** +2348062285862  
+**Opay:** 8062285862  
+
+---
+
+## Payment
+
+Payments are processed securely through Paystack. For access keys and premium features, contact the owner via WhatsApp.
